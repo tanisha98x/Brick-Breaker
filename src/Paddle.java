@@ -1,21 +1,26 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.shape.Rectangle;
+
 
 public class Paddle {
     public final String PADDLE_IMAGE = "paddle.jpeg";
     public ImageView myPaddle;
     public static final int PADDLE_SPEED = 5;
 
-    public void createPaddle(){
+    public ImageView createPaddle(){
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myPaddle = new ImageView(image);
+        return myPaddle;
 
     }
     public void paddleRules(ImageView paddle){
-        if(paddle.getX()>= display.setScene){
 
+        if(paddle.getX()>= display.SIZE){
+            paddle.setX(0);
+        }
+        if(paddle.getX() <= 0){
+            paddle.setX(display.SIZE);
         }
     }
     public void handleKeyInput (KeyCode code) {
