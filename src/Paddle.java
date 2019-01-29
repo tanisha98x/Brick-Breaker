@@ -11,12 +11,13 @@ public class Paddle {
     public ImageView createPaddle(){
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myPaddle = new ImageView(image);
+        //paddleRules(myPaddle);
         return myPaddle;
 
     }
     public void paddleRules(ImageView paddle){
 
-        if(paddle.getX()>= display.SIZE){
+        if(paddle.getX()>= display.SIZE-paddle.){
             paddle.setX(0);
         }
         if(paddle.getX() <= 0){

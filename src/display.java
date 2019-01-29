@@ -17,10 +17,10 @@ public class display extends Application {
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    public static final Paint BACKGROUND = Color.AZURE;
+    public static final Paint BACKGROUND = Color.LAVENDERBLUSH;
     private Scene myScene;
-    private Paddle paddle = new Paddle();
-    private ImageView myPaddle = paddle.createPaddle();
+    private Paddle paddleObject = new Paddle();
+    private ImageView myPaddle = paddleObject.createPaddle();
 
 
     private Scene setupGame (int width, int height, Paint background) {
@@ -31,8 +31,10 @@ public class display extends Application {
         // make some shapes and set their properties
         // order added to the group is the order in which they are drawn
         root.getChildren().add(myPaddle);
+        //root.getChildren().add(myBouncer);
+        //paddleObject.paddleRules(myPaddle);
         // respond to input
-        scene.setOnKeyPressed(e -> paddle.handleKeyInput(e.getCode()));
+        scene.setOnKeyPressed(e -> paddleObject.handleKeyInput(e.getCode()));
         return scene;
     }
     /**
@@ -46,10 +48,10 @@ public class display extends Application {
         stage.setTitle(TITLE);
         stage.show();
         // attach "game loop" to timeline to play it
-        //var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
+       // var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         var animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
-        //animation.getKeyFrames().add(frame);
+       // animation.getKeyFrames().add(frame);
         animation.play();
     }
 
@@ -66,7 +68,7 @@ public class display extends Application {
         animation.play();
     }
 
-    //private void step (double elapsedTime) {
+   // private void step (double elapsedTime) {
         // update attributes
       //  myPaddle.setRotate(myPaddle.getRotate() - 1);
    // }
