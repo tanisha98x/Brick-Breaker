@@ -12,5 +12,6 @@
     <orderEntry type="library" name="javafx-controls-11.0.1-mac" level="project" />
     <orderEntry type="library" name="javafx-graphics-11.0.1-mac" level="project" />
     <orderEntry type="library" name="javafx-media-11.0.1-mac" level="project" />
+    <orderEntry type="library" name="mac" level="project" />
   </component>
 </module>

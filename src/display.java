@@ -19,8 +19,9 @@ public class display extends Application {
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.LAVENDERBLUSH;
     private Scene myScene;
-    private Paddle paddleObject = new Paddle();
-    private ImageView myPaddle = paddleObject.createPaddle();
+    private Paddle myPaddle =  new Paddle();
+
+
 
 
     private Scene setupGame (int width, int height, Paint background) {
@@ -30,11 +31,14 @@ public class display extends Application {
         var scene = new Scene(root, width, height, background);
         // make some shapes and set their properties
         // order added to the group is the order in which they are drawn
+
         root.getChildren().add(myPaddle);
+        myPaddle.setX(width/2);
+        myPaddle.setY(height/2);
         //root.getChildren().add(myBouncer);
         //paddleObject.paddleRules(myPaddle);
         // respond to input
-        scene.setOnKeyPressed(e -> paddleObject.handleKeyInput(e.getCode()));
+        scene.setOnKeyPressed(e -> myPaddle.handleKeyInput(e.getCode()));
         return scene;
     }
     /**
@@ -48,10 +52,10 @@ public class display extends Application {
         stage.setTitle(TITLE);
         stage.show();
         // attach "game loop" to timeline to play it
-       // var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
+        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         var animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
-       // animation.getKeyFrames().add(frame);
+        animation.getKeyFrames().add(frame);
         animation.play();
     }
 
@@ -61,17 +65,17 @@ public class display extends Application {
         stage.setTitle(TITLE);
         stage.show();
         // attach "game loop" to timeline to play it
-       // var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
+       var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         var animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
-       // animation.getKeyFrames().add(frame);
+        animation.getKeyFrames().add(frame);
         animation.play();
     }
 
-   // private void step (double elapsedTime) {
+    private void step (double elapsedTime) {
         // update attributes
-      //  myPaddle.setRotate(myPaddle.getRotate() - 1);
-   // }
+        myPaddle.paddleRules();
+    }
 
     public static void main (String[] args) {
         launch(args);

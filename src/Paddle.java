@@ -3,39 +3,52 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 
 
-public class Paddle {
-    public final String PADDLE_IMAGE = "paddle.jpeg";
-    public ImageView myPaddle;
-    public static final int PADDLE_SPEED = 5;
+public class Paddle extends ImageView {
+    public final String PADDLE_IMAGE = "paddle.gif";
+    public static int PADDLE_SPEED = 15;
 
-    public ImageView createPaddle(){
+    /**
+     * Creates a paddle object
+     */
+    public Paddle(){
+        super();
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
-        myPaddle = new ImageView(image);
-        //paddleRules(myPaddle);
-        return myPaddle;
-
+        this.setImage(image);
+        this.setFitHeight(image.getHeight());
+        this.setFitWidth(image.getWidth());
     }
-    public void paddleRules(ImageView paddle){
 
-        if(paddle.getX()>= display.SIZE-paddle.){
-            paddle.setX(0);
+//   public ImageView createPaddle(){
+//        var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
+//        myPaddle = new ImageView(image);
+//        myPaddle.setFitHeight(image.getHeight());
+//        myPaddle.setFitWidth(image.getWidth());
+//        myPaddle.setX(display.SIZE/2 - myPaddle.getFitWidth());
+//        myPaddle.setY(display.SIZE);
+//        return myPaddle;
+//   }
+
+    public void paddleRules(){
+        if(this.getX() >= display.SIZE) {
+            this.setX(this.getFitWidth());
         }
-        if(paddle.getX() <= 0){
-            paddle.setX(display.SIZE);
+        if(this.getX()<= 0 ){
+            this.setX(display.SIZE-this.getFitWidth());
         }
     }
+
     public void handleKeyInput (KeyCode code) {
         if (code == KeyCode.RIGHT) {
-            myPaddle.setX(myPaddle.getX() + PADDLE_SPEED);
+            this.setX(this.getX() + PADDLE_SPEED);
         }
         else if (code == KeyCode.LEFT) {
-            myPaddle.setX(myPaddle.getX() - PADDLE_SPEED);
+            this.setX(this.getX() - PADDLE_SPEED);
         }
         else if (code == KeyCode.UP) {
-            myPaddle.setY(myPaddle.getY() - PADDLE_SPEED);
+            this.setY(display.SIZE);
         }
         else if (code == KeyCode.DOWN) {
-            myPaddle.setY(myPaddle.getY() + PADDLE_SPEED);
+            this.setY(display.SIZE);
         }
     }
 
