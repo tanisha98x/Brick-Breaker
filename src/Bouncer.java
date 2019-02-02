@@ -51,12 +51,14 @@ public class Bouncer {
         myImageView.setX(myImageView.getX() + myVelocityX * elapsedTime);
     }
 
-    public void bounce(double screenWidth, double screenHeight){
-        //if ()
+    public void bounce(double screenWidth, double screenHeight, Paddle paddle){
+        if (display.intersect(this,  paddle)){
+            myVelocityY*=-1;
+        }
         if(myImageView.getX()<=0||myImageView.getX()+myImageView.getImage().getWidth()>= screenWidth){//add width and height
             myVelocityX*=-1;
         }
-        if(myImageView.getY()<=0||myImageView.getY()>= screenHeight){
+        if(myImageView.getY()<=0){//||myImageView.getY()>= screenHeight
             myVelocityY*=-1;
         }
     }

@@ -53,7 +53,7 @@ public class display extends Application {
         myPaddle = new Paddle(this);
         myPaddle.getView().setX(width/2);
         myPaddle.getView().setY(height-10);
-        myBouncer = new Bouncer(myPaddle.getView().getX(), myPaddle.getView().getY());
+        myBouncer = new Bouncer(0,0);
         //myRoot.getChildren().add(myPaddle.getView());
 
         //myRoot.getChildren().add(myBouncer.getView());
@@ -99,7 +99,14 @@ public class display extends Application {
         // update attributes
         myPaddle.paddleRules();
         myBouncer.move(elapsedTime);
-        myBouncer.bounce(myScene.getWidth(),myScene.getHeight());
+        myBouncer.bounce(myScene.getWidth(),myScene.getHeight(), myPaddle);
+    }
+
+    public static Boolean intersect(Bouncer ball, Paddle paddle){
+        if (ball.getView().intersects(paddle.getView().getBoundsInParent())){
+            return true;
+        }
+        return false;
     }
 
 
