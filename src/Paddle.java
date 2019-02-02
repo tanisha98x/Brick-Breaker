@@ -3,19 +3,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 
 
-public class Paddle extends ImageView {
-    public final String PADDLE_IMAGE = "paddle.gif";
-    public static int PADDLE_SPEED = 15;
+public class Paddle {
+    private final String PADDLE_IMAGE = "paddle.gif";
+    private static int PADDLE_SPEED = 15;
+    private display myDisplay;
+    private ImageView myImageView;
 
     /**
      * Creates a paddle object
      */
-    public Paddle(){
+    public Paddle(display display){
         super();
+        myDisplay = display;
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
-        this.setImage(image);
-        this.setFitHeight(image.getHeight());
-        this.setFitWidth(image.getWidth());
+        myImageView =  new ImageView(image);
+        myImageView.setImage(image);
+        myImageView.setFitHeight(image.getHeight());
+        myImageView.setFitWidth(image.getWidth());
+
     }
 
 //   public ImageView createPaddle(){
@@ -29,27 +34,32 @@ public class Paddle extends ImageView {
 //   }
 
     public void paddleRules(){
-        if(this.getX() >= display.SIZE) {
-            this.setX(this.getFitWidth());
+        if(myImageView.getX() >= myDisplay.getSize()) {
+            myImageView.setX(myImageView.getFitWidth());
         }
-        if(this.getX()<= 0 ){
-            this.setX(display.SIZE-this.getFitWidth());
+        if(myImageView.getX()<= 0 ){
+            myImageView.setX(myDisplay.getSize()-myImageView.getFitWidth());
         }
     }
 
-    public void handleKeyInput (KeyCode code) {
+    public void handleKeyInput (KeyCode code) {//combine key methods
         if (code == KeyCode.RIGHT) {
-            this.setX(this.getX() + PADDLE_SPEED);
+            myImageView.setX(myImageView.getX() + PADDLE_SPEED);
         }
         else if (code == KeyCode.LEFT) {
-            this.setX(this.getX() - PADDLE_SPEED);
+            myImageView.setX(myImageView.getX() - PADDLE_SPEED);
         }
         else if (code == KeyCode.UP) {
-            this.setY(display.SIZE);
+            myImageView.setY(myDisplay.getSize());
         }
         else if (code == KeyCode.DOWN) {
-            this.setY(display.SIZE);
+            myImageView.setY(myDisplay.getSize());
         }
+
+
+    }
+    public ImageView getView(){
+        return myImageView;
     }
 
 }
