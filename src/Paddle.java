@@ -28,8 +28,8 @@ public class Paddle {
 //        myPaddle = new ImageView(image);
 //        myPaddle.setFitHeight(image.getHeight());
 //        myPaddle.setFitWidth(image.getWidth());
-//        myPaddle.setX(display.SIZE/2 - myPaddle.getFitWidth());
-//        myPaddle.setY(display.SIZE);
+//        myPaddle.setX(display.SCREEN_SIZE/2 - myPaddle.getFitWidth());
+//        myPaddle.setY(display.SCREEN_SIZE);
 //        return myPaddle;
 //   }
 
@@ -58,6 +58,9 @@ public class Paddle {
 
 
     }
+
+
+
     public ImageView getView(){
         return myImageView;
     }
