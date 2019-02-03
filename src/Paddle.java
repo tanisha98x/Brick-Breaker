@@ -12,7 +12,7 @@ public class Paddle {
     /**
      * Creates a paddle object
      */
-    public Paddle(display display){
+    public Paddle(display display, double width, double height){
         super();
         myDisplay = display;
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
@@ -20,6 +20,9 @@ public class Paddle {
         myImageView.setImage(image);
         myImageView.setFitHeight(image.getHeight());
         myImageView.setFitWidth(image.getWidth());
+        myImageView.setX(width);
+        myImageView.setY(height);
+
 
     }
 
@@ -42,22 +45,8 @@ public class Paddle {
         }
     }
 
-    public void handleKeyInput (KeyCode code) {//combine key methods
-        if (code == KeyCode.RIGHT) {
-            myImageView.setX(myImageView.getX() + PADDLE_SPEED);
-        }
-        else if (code == KeyCode.LEFT) {
-            myImageView.setX(myImageView.getX() - PADDLE_SPEED);
-        }
-        else if (code == KeyCode.UP) {
-            myImageView.setY(myDisplay.getSize());
-        }
-        else if (code == KeyCode.DOWN) {
-            myImageView.setY(myDisplay.getSize());
-        }
 
 
-    }
 
 
 

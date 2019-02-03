@@ -1,7 +1,10 @@
 
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 
+import java.awt.*;
 import java.util.Random;
 
 public class Bouncer {
@@ -34,6 +37,12 @@ public class Bouncer {
         return myVelocityY;
     }
 
+    public void updateVelocity(){//ball moves a little faster everytime it hits the paddle
+        myVelocityX-=5;
+        myVelocityY-=5;
+
+    }
+
     //
 //
 //
@@ -51,10 +60,31 @@ public class Bouncer {
         myImageView.setX(myImageView.getX() + myVelocityX * elapsedTime);
     }
 
-    public void bounce(double screenWidth, double screenHeight, Paddle paddle){
-        if (display.intersect(this,  paddle)){
-            myVelocityY*=-1;
+    public void bounce(double screenWidth, Paddle paddle, Group root, Bricks [][] myBrickArray){
+
+        for (Bricks [] each: myBrickArray){
+            for (Bricks object : each){
+                if (display.intersect(this,  paddle)){
+                    myVelocityY*=-1;
+                    updateVelocity();
+                }
+                if (display.destroyBrick(this,  object.myBrick)){
+                    System.out.print("hello");
+                    myVelocityY*=-1;
+                    root.getChildren().remove(object.myBrick);
+            }
         }
+//        if (display.intersect(this,  paddle)){
+//            myVelocityY*=-1;
+//            updateVelocity();
+//        }
+//        if (display.destroyBrick(this,  brick)){
+//            myVelocityY*=-1;
+//            root.getChildren().remove(brick);
+
+
+        }
+
         if(myImageView.getX()<=0||myImageView.getX()+myImageView.getImage().getWidth()>= screenWidth){//add width and height
             myVelocityX*=-1;
         }
