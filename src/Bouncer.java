@@ -60,7 +60,7 @@ public class Bouncer {
         myImageView.setX(myImageView.getX() + myVelocityX * elapsedTime);
     }
 
-    public void bounce(double screenWidth, Paddle paddle, Group root, Bricks [][] myBrickArray){
+    public void bounce(double screenWidth, Paddle paddle, Bricks [][] myBrickArray){
 
         for (Bricks [] each: myBrickArray){
             for (Bricks object : each){
@@ -69,9 +69,8 @@ public class Bouncer {
                     updateVelocity();
                 }
                 if (display.destroyBrick(this,  object.myBrick)){
-                    System.out.print("hello");
                     myVelocityY*=-1;
-                    root.getChildren().remove(object.myBrick);
+                    display.myRoot.getChildren().remove(object.myBrick);
             }
         }
 //        if (display.intersect(this,  paddle)){

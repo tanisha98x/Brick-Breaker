@@ -10,9 +10,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.shape.Rectangle;
-
-
-
+import jdk.dynalink.beans.StaticClass;
 
 
 public class display extends Application {
@@ -29,12 +27,12 @@ public class display extends Application {
     private SplashScreen myScreen2;
     private Paddle myPaddle;
     private Bouncer myBouncer;
-    private Group myRoot;
+    public static Group myRoot;
     private boolean instructionsShown= true;
     private boolean gameStarted= true;
     private int count=0;
     private static int PADDLE_SPEED = 15;
-    private static Rectangle myRectangle;
+    //private static Rectangle myRectangle;
     private static Bricks[][] myBrickArray= Bricks.createBrickArray(4,7,SCREEN_SIZE*0.8, 20, SCREEN_SIZE*0.6, 10);
 
     public Group getRoot(){
@@ -46,9 +44,9 @@ public class display extends Application {
     private Scene setupGame (int width, int height, Paint background,  String SPLASH_SCREEN1, String SPLASH_SCREEN2) {//level1 :4 by 7
         // create one top level collection to organize the things in the scene
         myRoot = new Group();
-        myRectangle= new Rectangle(40,40,60,20);
-        myRectangle.setStroke(Color.BLACK);
-        myRectangle.setFill(Color.FLORALWHITE);
+//        myRectangle= new Rectangle(40,40,60,20);
+//        myRectangle.setStroke(Color.BLACK);
+//        myRectangle.setFill(Color.FLORALWHITE);
 
         // create a place to see the shapes
         var scene = new Scene(myRoot, width, height, background);
@@ -111,7 +109,7 @@ public class display extends Application {
         // update attributes
         myPaddle.paddleRules();
         myBouncer.move(elapsedTime);
-        myBouncer.bounce(myScene.getWidth(), myPaddle, myRoot, myBrickArray);
+        myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
     }
 
     public static Boolean intersect(Bouncer ball, Paddle paddle){
@@ -149,9 +147,13 @@ public class display extends Application {
                     myRoot.getChildren().add(object.myBrick);
                 }
             }
-            myRoot.getChildren().add(myRectangle);
+           // myRoot.getChildren().add(myRectangle);
             //myRoot.getChildren().add(new Bricks(0,0));
             count+=1;
+        }
+
+        if (code==KeyCode.L){
+            StatusDisplay.myLives+=1;
         }
 
         if (code == KeyCode.RIGHT) {

@@ -2,7 +2,7 @@ public class StatusDisplay {
     private double myScore=0;
     private int myLevel=1;
 
-    private int myLives=3;
+    public static int myLives=3;
 
     public StatusDisplay(double score, int level, int lives){
         myScore=score;
