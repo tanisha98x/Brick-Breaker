@@ -17,7 +17,7 @@ public class display extends Application {
     public static final String TITLE = "BRICK BREAKER !!!";
     public static final String SPLASH_SCREEN1 = "splashscreen1.gif";
     public static final String SPLASH_SCREEN2 = "splashscreen2.gif";
-    public static final int SCREEN_SIZE = 400;
+    public static final int SCREEN_SIZE = 800;
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -63,7 +63,7 @@ public class display extends Application {
         // make some shapes and set their properties
         // order added to the group is the order in which they are drawn
         myPaddle = new Paddle(this, width/2-20, height-15);
-        myBouncer = new Bouncer(0,0);
+        myBouncer = new Bouncer(0, 1, width/2+20,height-15);
         //myRoot.getChildren().add(myPaddle.getView());
 
         //myRoot.getChildren().add(myBouncer.getView());
@@ -72,6 +72,7 @@ public class display extends Application {
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         return scene;
     }
+
     /**
      * Initialize what will be displayed and how it will be updated.
      */
@@ -109,6 +110,11 @@ public class display extends Application {
         // update attributes
         myPaddle.paddleRules();
         myBouncer.move(elapsedTime);
+        myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
+    }
+    private void stepPlay(double elapsedTime){
+        myPaddle.paddleRules();
+        myBouncer.moveFirst(1.00, 0.00, elapsedTime);
         myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
     }
 
@@ -151,7 +157,10 @@ public class display extends Application {
             //myRoot.getChildren().add(new Bricks(0,0));
             count+=1;
         }
-
+        else if(code == KeyCode.SPACE && count == 2) {
+            myBouncer.myVelocityX = 200;
+            myBouncer.myVelocityY = 200;
+        }
         if (code==KeyCode.L){
             StatusDisplay.myLives+=1;
         }

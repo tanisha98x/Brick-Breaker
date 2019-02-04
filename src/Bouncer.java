@@ -15,18 +15,20 @@ public class Bouncer {
 
     private double myX;
     private double myY;
-    private double myVelocityX = 200;
-    private double myVelocityY = 200;
+    public double myVelocityX = 200;
+    public double myVelocityY = 200;
     private ImageView myImageView;
     private Random myRandom = new Random();
 
-    public Bouncer(double xPos, double yPos) {
+    public Bouncer(double velX, double vleY, double xPos, double yPos) {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
         myImageView =  new ImageView(image);
         myImageView.setX(xPos);
         myImageView.setY(yPos);
         myX = myImageView.getX();
         myY = myImageView.getX();
+        myVelocityY = vleY;
+        myVelocityX = velX;
     }
 
     public double getXVel() {
@@ -55,14 +57,17 @@ public class Bouncer {
         myImageView.setX(myRandom.nextInt());
         myY = myImageView.getX();
     }
+    public void moveFirst(double velX, double velY, double elapsedTime){
+        myImageView.setY(myImageView.getY() + velX * elapsedTime);
+        myImageView.setX(myImageView.getX() + velY * elapsedTime);
+    }
     public void move(double elapsedTime){
-        myImageView.setY(myImageView.getY() + myVelocityY * elapsedTime);
-        myImageView.setX(myImageView.getX() + myVelocityX * elapsedTime);
+        moveFirst(myVelocityX, myVelocityY,elapsedTime);
     }
 
     public void bounce(double screenWidth, Paddle paddle, Bricks [][] myBrickArray){
-int row=-1;
-int col=-1;
+        int row=-1;
+        int col=-1;
         if (display.intersect(this,  paddle)){//edit so Y changes when top and x when side
             myVelocityY*=-1;
             updateVelocity();

@@ -5,7 +5,7 @@ import javafx.scene.input.KeyCode;
 
 public class Paddle {
     private final String PADDLE_IMAGE = "paddle.gif";
-    private static int PADDLE_SPEED = 15;
+    private static int PADDLE_SPEED = 25;
     private display myDisplay;
     private ImageView myImageView;
 
