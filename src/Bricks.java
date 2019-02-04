@@ -15,11 +15,14 @@ public class Bricks {
     private double myHitsLeft;
     private boolean myPowerUp;
     public Rectangle myBrick;
-    public File levelConfiguration= new File("resources/Level1Configuration");
+    public int myBrickNumber;
+    //public File levelConfiguration= new File("testfile1.txt");
     //public int [][] hitsLeftArray= createHitsLeftArray(levelConfiguration, 4,7);
+    public boolean myInvisibility;
 
-public Bricks(double xpos, double ypos, double width, double height, boolean powerUp, double hitsLeft){//do we need a constructor???
+public Bricks(double xpos, double ypos, double width, double height, boolean powerUp, double hitsLeft ){//do we need a constructor???
     Rectangle brick= new Rectangle(xpos, ypos, width, height);
+    myInvisibility=false;
     myBrick=brick;
     myHitsLeft=hitsLeft;
     myPowerUp=powerUp;

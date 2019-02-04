@@ -63,7 +63,7 @@ public class display extends Application {
         // make some shapes and set their properties
         // order added to the group is the order in which they are drawn
         myPaddle = new Paddle(this, width/2-20, height-15);
-        myBouncer = new Bouncer(myPaddle.getView().getX(),0);
+        myBouncer = new Bouncer(0,0);
         //myRoot.getChildren().add(myPaddle.getView());
 
         //myRoot.getChildren().add(myBouncer.getView());

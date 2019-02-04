@@ -15,8 +15,8 @@ public class Bouncer {
 
     private double myX;
     private double myY;
-    private double myVelocityX = 100;
-    private double myVelocityY = 100;
+    private double myVelocityX = 200;
+    private double myVelocityY = 200;
     private ImageView myImageView;
     private Random myRandom = new Random();
 
@@ -61,16 +61,28 @@ public class Bouncer {
     }
 
     public void bounce(double screenWidth, Paddle paddle, Bricks [][] myBrickArray){
-
-        for (Bricks [] each: myBrickArray){
+int row=-1;
+int col=-1;
+        if (display.intersect(this,  paddle)){//edit so Y changes when top and x when side
+            myVelocityY*=-1;
+            updateVelocity();
+        }
+        for (Bricks [] each: myBrickArray){ //remove from brick array!!
+            row+=1;
             for (Bricks object : each){
-                if (display.intersect(this,  paddle)){
-                    myVelocityY*=-1;
-                    updateVelocity();
-                }
-                if (display.destroyBrick(this,  object.myBrick)){
-                    myVelocityY*=-1;
+
+
+
+//                if (display.intersect(this,  paddle)){
+//                    myVelocityY*=-1;
+//                    updateVelocity();
+//                }
+                if (display.destroyBrick(this,  object.myBrick) && !object.myInvisibility){
                     display.myRoot.getChildren().remove(object.myBrick);
+                    object.myInvisibility=true;
+                    myVelocityY*=-1;
+
+                    //myBrickArray.remove(object);
             }
         }
 //        if (display.intersect(this,  paddle)){
