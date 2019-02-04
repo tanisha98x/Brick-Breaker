@@ -63,7 +63,7 @@ public class display extends Application {
         // make some shapes and set their properties
         // order added to the group is the order in which they are drawn
         myPaddle = new Paddle(this, width/2-20, height-15);
-        myBouncer = new Bouncer(0, 1, width/2+20,height-15);
+        myBouncer = new Bouncer(0, 1, width/2+20,height-15); //changed it to the correct starting location
         //myRoot.getChildren().add(myPaddle.getView());
 
         //myRoot.getChildren().add(myBouncer.getView());
@@ -157,8 +157,8 @@ public class display extends Application {
             //myRoot.getChildren().add(new Bricks(0,0));
             count+=1;
         }
-        else if(code == KeyCode.SPACE && count == 2) {
-            myBouncer.myVelocityX = 200;
+        else if(code == KeyCode.SPACE && count == 2) {  //my idea is that when we click space bar it will change its velocity to normal
+            myBouncer.myVelocityX = -75;
             myBouncer.myVelocityY = 200;
         }
         if (code==KeyCode.L){

@@ -20,7 +20,7 @@ public class Bouncer {
     private ImageView myImageView;
     private Random myRandom = new Random();
 
-    public Bouncer(double velX, double vleY, double xPos, double yPos) {
+    public Bouncer(double velX, double vleY, double xPos, double yPos) { //added two parameters: velX and velY so that we set it up to 0 at first
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
         myImageView =  new ImageView(image);
         myImageView.setX(xPos);
@@ -57,7 +57,7 @@ public class Bouncer {
         myImageView.setX(myRandom.nextInt());
         myY = myImageView.getX();
     }
-    public void moveFirst(double velX, double velY, double elapsedTime){
+    public void moveFirst(double velX, double velY, double elapsedTime){ // this was a trial method so that I could call it but did not seem to work
         myImageView.setY(myImageView.getY() + velX * elapsedTime);
         myImageView.setX(myImageView.getX() + velY * elapsedTime);
     }
