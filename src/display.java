@@ -40,6 +40,7 @@ public class display extends Application {
     private Text toDisplayW = setUp(w);
     private Text toDisplayl = setUp(l);
     private StatusDisplay Status = new StatusDisplay();
+    private TesterModes Modes = new TesterModes();
 
     private Text setUp(Text t) {
         t.setY(SCREEN_SIZE/2);
@@ -62,10 +63,16 @@ public class display extends Application {
 
         myScreen2= new SplashScreen(SPLASH_SCREEN2,0, 0);
         myRoot.getChildren().add(myScreen1.getView());
-        myPaddle = new Paddle(PADDLE_IMAGE, width/2-30, height-12, SCREEN_SIZE); //30 and 12 are due to the height 12 and width 60, of the image
+        myPaddle = new Paddle(PADDLE_IMAGE, width/2-30, height-13, SCREEN_SIZE); //30 and 13 are due to the height 12 and width 60, of the image
         myBouncer = new Bouncer(width/2-10,height-45, 1); //changed it to the correct starting location
         // respond to input
-        scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+        scene.setOnKeyPressed(e -> {
+            try {
+                handleKeyInput(e.getCode());
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
         return scene;
     }
 
@@ -81,7 +88,13 @@ public class display extends Application {
         stage.setResizable(false);
         stage.show();
         // attach "game loop" to timeline to play it
-        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
+        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
+            try {
+                step(1, SECOND_DELAY);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
         var animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
@@ -94,34 +107,52 @@ public class display extends Application {
         stage.setTitle(TITLE);
         stage.show();
         // attach "game loop" to timeline to play it
-       var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
+       var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
+           try {
+               step(1, SECOND_DELAY);
+           } catch (Exception e1) {
+               e1.printStackTrace();
+           }
+       });
         var animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
     }
 
-    private void step (double elapsedTime) {//need to make this start only when space bar is entered
-        myBouncer.looseALife();
-        Status.displayBar(Rules.myScore, Rules.myLives, 1);
-        // update attributes
-        if(myBouncer.myState == 1){
-            myBouncer.getView().setX(myPaddle.getView().getX()+ myPaddle.getView().getFitWidth()/2);
-            myBouncer.getView().setY(myPaddle.getView().getY()- 25); //25 bc the heigth of the image has heigth 12 so it goes a bit above it
+    private void step (int mode, double elapsedTime) throws Exception {//need to make this start only when space bar is entered
+        if(mode == 1) {
+            myBouncer.looseALife();
+            Status.displayBar(Rules.myScore, Rules.myLives, 1);
+            // update attributes
+            if (myBouncer.myState == 1) {
+                myBouncer.getView().setX(myPaddle.getView().getX() + myPaddle.getView().getFitWidth() / 2);
+                myBouncer.getView().setY(myPaddle.getView().getY() - 25); //25 bc the height of the image has height 12 so it goes a bit above it
+            } else if (myBouncer.myState == 2) {
+                myBouncer.move(elapsedTime);
+            }
+            if (myRules.checkForWin()) {
+                myRoot.getChildren().clear();
+                myRoot.getChildren().add(toDisplayW);
+            }
+            if (myRules.checkForLoss()) {
+                myRoot.getChildren().clear();
+                myRoot.getChildren().add(toDisplayl);
+            }
+            myPaddle.paddleRules();
+            myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
         }
-        else if(myBouncer.myState == 2){
-            myBouncer.move(elapsedTime);
+        if(mode == 2){
+            Modes.stepMode2(elapsedTime);
+
         }
-        if(myRules.checkForWin()){
-            myRoot.getChildren().clear();
-            myRoot.getChildren().add(toDisplayW);
+        if(mode == 3){
+            Modes.stepMode3(elapsedTime);
+
         }
-        if(myRules.checkForLoss()){
-            myRoot.getChildren().clear();
-            myRoot.getChildren().add(toDisplayl);
+        if(mode == 4){
+            Modes.stepMode4(elapsedTime);
         }
-        myPaddle.paddleRules();
-        myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
     }
 
     public static Boolean intersect(Bouncer ball, Paddle paddle){
@@ -135,17 +166,10 @@ public class display extends Application {
         if (ball.getView().intersects(brick.getBoundsInParent())){
             return true;
         }
-
         return false;
     }
 
-
-
-    public int getSize(){
-        return SCREEN_SIZE;
-    }
-
-    public void handleKeyInput (KeyCode code) {//combine key methods
+    public void handleKeyInput (KeyCode code) throws Exception { //combine key methods
         if (code==KeyCode.SPACE && count==0){
             myRoot.getChildren().remove(myScreen1.getView());
             myRoot.getChildren().add(myScreen2.getView());
@@ -168,14 +192,21 @@ public class display extends Application {
                myBouncer.myState = 2;
            }
         }
+        if(code == KeyCode.PERIOD){
+            step(2, SECOND_DELAY);
+        }
+        if(code == KeyCode.COMMA){
+            step(3, SECOND_DELAY);
+        }
+        if(code == KeyCode.BACK_SLASH){
+            step(4, SECOND_DELAY);
+        }
         if(code == KeyCode.R){
             myBouncer.myState = 1;
         }
         if (code==KeyCode.L){
             Rules.myLives+=1;
         }
-
-
         if (code == KeyCode.RIGHT) {
             myPaddle.getView().setX(myPaddle.getView().getX() + PADDLE_SPEED);
         }
@@ -183,11 +214,12 @@ public class display extends Application {
             myPaddle.getView().setX(myPaddle.getView().getX() - PADDLE_SPEED);
         }
         else if (code == KeyCode.UP) {
-            myPaddle.getView().setY(this.getSize());
+            myPaddle.getView().setY(SCREEN_SIZE - 13);
         }
         else if (code == KeyCode.DOWN) {
-            myPaddle.getView().setY(this.getSize());
-        }}
+            myPaddle.getView().setY(SCREEN_SIZE -13);
+        }
+    }
 
     public static void main (String[] args) {
         launch(args);
