@@ -7,7 +7,7 @@ import javafx.scene.shape.Rectangle;
 import java.awt.*;
 import java.util.Random;
 
-public class Bouncer {
+public class Bouncer  {
     public static final String BOUNCER_IMAGE = "ball2.png";
     public static int BOUNCER_SPEED = 15;
     private double x_Direction;
@@ -15,20 +15,18 @@ public class Bouncer {
 
     private double myX;
     private double myY;
-    public double myVelocityX = 200;
-    public double myVelocityY = 200;
+    public double myVelocityX = 100;
+    public double myVelocityY = 100;
+    public int myState;
     private ImageView myImageView;
     private Random myRandom = new Random();
 
-    public Bouncer(double velX, double vleY, double xPos, double yPos) { //added two parameters: velX and velY so that we set it up to 0 at first
+    public Bouncer(double xPos, double yPos, int ballState) { //added two parameters: velX and velY so that we set it up to 0 at first
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
         myImageView =  new ImageView(image);
         myImageView.setX(xPos);
         myImageView.setY(yPos);
-        myX = myImageView.getX();
-        myY = myImageView.getX();
-        myVelocityY = vleY;
-        myVelocityX = velX;
+        myState = ballState;
     }
 
     public double getXVel() {
@@ -42,13 +40,9 @@ public class Bouncer {
     public void updateVelocity(){//ball moves a little faster everytime it hits the paddle
         myVelocityX-=5;
         myVelocityY-=5;
-
     }
 
-    //
-//
-//
-//
+
     public void bouncer(String BOUNCER_IMAGE){
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
         myImageView =  new ImageView(image);
@@ -57,12 +51,11 @@ public class Bouncer {
         myImageView.setX(myRandom.nextInt());
         myY = myImageView.getX();
     }
-    public void moveFirst(double velX, double velY, double elapsedTime){ // this was a trial method so that I could call it but did not seem to work
-        myImageView.setY(myImageView.getY() + velX * elapsedTime);
-        myImageView.setX(myImageView.getX() + velY * elapsedTime);
-    }
+
+
     public void move(double elapsedTime){
-        moveFirst(myVelocityX, myVelocityY,elapsedTime);
+        myImageView.setY(myImageView.getY() + myVelocityY * elapsedTime);
+        myImageView.setX(myImageView.getX() + myVelocityX * elapsedTime);
     }
 
     public void bounce(double screenWidth, Paddle paddle, Bricks [][] myBrickArray){

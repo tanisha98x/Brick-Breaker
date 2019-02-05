@@ -17,6 +17,7 @@ public class display extends Application {
     public static final String TITLE = "BRICK BREAKER !!!";
     public static final String SPLASH_SCREEN1 = "splashscreen1.gif";
     public static final String SPLASH_SCREEN2 = "splashscreen2.gif";
+    public static final String PADDLE_IMAGE = "paddle.gif";
     public static final int SCREEN_SIZE = 800;
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -33,7 +34,7 @@ public class display extends Application {
     private int count=0;
     private static int PADDLE_SPEED = 15;
     //private static Rectangle myRectangle;
-    private static Bricks[][] myBrickArray= Bricks.createBrickArray(4,7,SCREEN_SIZE*0.8, 20, SCREEN_SIZE*0.6, 10);
+    private static Bricks[][] myBrickArray= Bricks.createBrickArray(4,7,SCREEN_SIZE*0.5, 20, SCREEN_SIZE*0.3, 10);
 
     public Group getRoot(){
         return myRoot;
@@ -62,8 +63,8 @@ public class display extends Application {
 
         // make some shapes and set their properties
         // order added to the group is the order in which they are drawn
-        myPaddle = new Paddle(this, width/2-20, height-15);
-        myBouncer = new Bouncer(0, 1, width/2+20,height-15); //changed it to the correct starting location
+        myPaddle = new Paddle(PADDLE_IMAGE, width/2-30, height-12, SCREEN_SIZE); //30 and 12 are due to the height 12 and width 60, of the image
+        myBouncer = new Bouncer(width/2-10,height-45, 1); //changed it to the correct starting location
         //myRoot.getChildren().add(myPaddle.getView());
 
         //myRoot.getChildren().add(myBouncer.getView());
@@ -108,18 +109,20 @@ public class display extends Application {
     private void step (double elapsedTime) {//need to make this start only when space bar is entered
 
         // update attributes
+        if(myBouncer.myState == 1){
+            //myBouncer.moveFirst(0, 0, elapsedTime);
+            myBouncer.getView().setX(myPaddle.getX()+ myPaddle.getFitWidth()/2);
+            myBouncer.getView().setY(myPaddle.getY()- 25); //25 bc the heigth of the image has heigth 12 so it goes a bit above it
+        }
+        else if(myBouncer.myState == 2){
+            myBouncer.move(elapsedTime);
+        }
         myPaddle.paddleRules();
-        myBouncer.move(elapsedTime);
-        myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
-    }
-    private void stepPlay(double elapsedTime){
-        myPaddle.paddleRules();
-        myBouncer.moveFirst(1.00, 0.00, elapsedTime);
         myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
     }
 
     public static Boolean intersect(Bouncer ball, Paddle paddle){
-        if (ball.getView().intersects(paddle.getView().getBoundsInParent())){
+        if (ball.getView().intersects(paddle.getBoundsInParent())){
             return true;
         }
         return false;
@@ -146,7 +149,7 @@ public class display extends Application {
         }
         else if (code==KeyCode.SPACE && count==1){
             myRoot.getChildren().remove(myScreen2.getView());
-            myRoot.getChildren().add(myPaddle.getView());
+            myRoot.getChildren().add(myPaddle);
             myRoot.getChildren().add(myBouncer.getView());
             for (Bricks [] each: myBrickArray){
                 for (Bricks object : each){
@@ -158,24 +161,25 @@ public class display extends Application {
             count+=1;
         }
         else if(code == KeyCode.SPACE && count == 2) {  //my idea is that when we click space bar it will change its velocity to normal
-            myBouncer.myVelocityX = -75;
-            myBouncer.myVelocityY = 200;
+           if(myBouncer.myState == 1){
+               myBouncer.myState = 2;
+           }
         }
         if (code==KeyCode.L){
             StatusDisplay.myLives+=1;
         }
 
         if (code == KeyCode.RIGHT) {
-            myPaddle.getView().setX(myPaddle.getView().getX() + PADDLE_SPEED);
+            myPaddle.setX(myPaddle.getX() + PADDLE_SPEED);
         }
         else if (code == KeyCode.LEFT) {
-            myPaddle.getView().setX(myPaddle.getView().getX() - PADDLE_SPEED);
+            myPaddle.setX(myPaddle.getX() - PADDLE_SPEED);
         }
         else if (code == KeyCode.UP) {
-            myPaddle.getView().setY(this.getSize());
+            myPaddle.setY(this.getSize());
         }
         else if (code == KeyCode.DOWN) {
-            myPaddle.getView().setY(this.getSize());
+            myPaddle.setY(this.getSize());
         }}
 
     public static void main (String[] args) {

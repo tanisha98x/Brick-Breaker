@@ -3,55 +3,42 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 
 
-public class Paddle {
-    private final String PADDLE_IMAGE = "paddle.gif";
-    private static int PADDLE_SPEED = 25;
-    private display myDisplay;
-    private ImageView myImageView;
-
+public class Paddle extends ImageView {
+    private int PADDLE_SPEED = 800;
+    private int displaySize;
     /**
      * Creates a paddle object
      */
-    public Paddle(display display, double width, double height){
+    public Paddle(String PADDLE_IMAGE, int startXPos, int startYPos, int sizeOfDisplay){ //yposition just be the height minus height of paddle
         super();
-        myDisplay = display;
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
-        myImageView =  new ImageView(image);
-        myImageView.setImage(image);
-        myImageView.setFitHeight(image.getHeight());
-        myImageView.setFitWidth(image.getWidth());
-        myImageView.setX(width);
-        myImageView.setY(height);
-
+        this.setImage(image);
+        this.setFitHeight(image.getHeight());
+        this.setFitWidth(image.getWidth());
+        this.setX(startXPos);
+        this.setY(startYPos);
+        this.displaySize = sizeOfDisplay;
 
     }
 
-//   public ImageView createPaddle(){
-//        var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
-//        myPaddle = new ImageView(image);
-//        myPaddle.setFitHeight(image.getHeight());
-//        myPaddle.setFitWidth(image.getWidth());
-//        myPaddle.setX(display.SCREEN_SIZE/2 - myPaddle.getFitWidth());
-//        myPaddle.setY(display.SCREEN_SIZE);
-//        return myPaddle;
-//   }
+    public void changePaddleSpeed(int speedIncrease){
+        PADDLE_SPEED  = PADDLE_SPEED + speedIncrease;
+    }
+
+    public void changePaddleImage(String PADDLE_IMAGE){
+        var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
+        this.setImage(image);
+    }
+
 
     public void paddleRules(){
-        if(myImageView.getX() >= myDisplay.getSize()) {
-            myImageView.setX(myImageView.getFitWidth());
+        if(this.getX() >= displaySize) {
+            this.setX(this.getFitWidth());
         }
-        if(myImageView.getX()<= 0 ){
-            myImageView.setX(myDisplay.getSize()-myImageView.getFitWidth());
+        if(this.getX()<= 0 ){
+            this.setX(displaySize-this.getFitWidth());
         }
     }
 
-
-
-
-
-
-    public ImageView getView(){
-        return myImageView;
-    }
 
 }
