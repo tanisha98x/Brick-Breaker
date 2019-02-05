@@ -1,33 +1,16 @@
+import javafx.scene.text.Text;
+
 public class StatusDisplay {
-    private double myScore=0;
-    private int myLevel=1;
 
-    public static int myLives=3;
+    private Text statusBar = new Text();
 
-    public StatusDisplay(double score, int level, int lives){
-        myScore=score;
-        myLevel=level;
-        myLives=lives;
+    public Text displayBar(int myScore, int myLives, int myLevel){
+        statusBar.setText("Score: "+ Integer.toString(myScore)+ " Lives: "+ Integer.toString(myLives)+ " Level: "+ myLevel);
+        statusBar.setX(600);
+        statusBar.setY(50);
+        return statusBar;
+    }
 
-    }
-    public void updateScore(double score){
-        myScore+=score;
-    }
-    public void updateLevel(){
-        myLevel+=1;
-    }
-    public void updateLives(){
-        myLives-=1;
-        System.out.print(myLives);
-    }
-    public double getScore(){
-        return myScore;
-    }
-    public double getLevel(){
-        return myLevel;
-    }
-    public double getLives(){
-        return myLives;
-    }
+
 
 }

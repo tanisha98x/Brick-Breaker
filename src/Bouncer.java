@@ -21,7 +21,7 @@ public class Bouncer  {
     private ImageView myImageView;
     private Random myRandom = new Random();
 
-    public Bouncer(double xPos, double yPos, int ballState) { //added two parameters: velX and velY so that we set it up to 0 at first
+    public Bouncer(double xPos, double yPos, int ballState) {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
         myImageView =  new ImageView(image);
         myImageView.setX(xPos);
@@ -37,9 +37,9 @@ public class Bouncer  {
         return myVelocityY;
     }
 
-    public void updateVelocity(){//ball moves a little faster everytime it hits the paddle
-        myVelocityX-=5;
-        myVelocityY-=5;
+    public void updateVelocity(){ //ball moves a little faster everytime it hits the paddle--Power Up
+        myVelocityX+=5;
+        myVelocityY+=5;
     }
 
 
@@ -78,6 +78,8 @@ public class Bouncer  {
                 if (display.destroyBrick(this,  object.myBrick) && !object.myInvisibility){
                     display.myRoot.getChildren().remove(object.myBrick);
                     object.myInvisibility=true;
+                    Rules.myScore += 1;
+                    Bricks.myBrickNumber -=1;
                     myVelocityY*=-1;
 
                     //myBrickArray.remove(object);
@@ -105,5 +107,11 @@ public class Bouncer  {
     public ImageView getView(){
         return myImageView;
     }
-//}
+    public void looseALife(){
+        if(this.getView().getX() >= display.SCREEN_SIZE || this.getView().getY()>= display.SCREEN_SIZE){
+            Rules.myLives -= 1;
+            this.myState = 1;
+        }
+    }
+
 }

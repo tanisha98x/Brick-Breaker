@@ -10,8 +10,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.shape.Rectangle;
-import jdk.dynalink.beans.StaticClass;
-
+import javafx.scene.text.*;
 
 public class display extends Application {
     public static final String TITLE = "BRICK BREAKER !!!";
@@ -28,27 +27,34 @@ public class display extends Application {
     private SplashScreen myScreen2;
     private Paddle myPaddle;
     private Bouncer myBouncer;
+    private Bricks myBricks;
+    private Rules myRules = new Rules();
     public static Group myRoot;
     private boolean instructionsShown= true;
     private boolean gameStarted= true;
-    private int count=0;
+    private int count = 0;
     private static int PADDLE_SPEED = 15;
-    //private static Rectangle myRectangle;
-    private static Bricks[][] myBrickArray= Bricks.createBrickArray(4,7,SCREEN_SIZE*0.5, 20, SCREEN_SIZE*0.3, 10);
+    private static Bricks[][] myBrickArray= BrickManager.createBrickArray(4,7,SCREEN_SIZE*0.8, 20, SCREEN_SIZE*0.6, 10);
+    private Text w = new Text("Congratulations, you won :') !!");
+    private Text l = new Text("So sorry you lost :'( ");
+    private Text toDisplayW = setUp(w);
+    private Text toDisplayl = setUp(l);
+    private StatusDisplay Status = new StatusDisplay();
+
+    private Text setUp(Text t) {
+        t.setY(SCREEN_SIZE/2);
+        t.setX(SCREEN_SIZE/2);
+        return t;
+    }
 
     public Group getRoot(){
         return myRoot;
     }
 
 
-
     private Scene setupGame (int width, int height, Paint background,  String SPLASH_SCREEN1, String SPLASH_SCREEN2) {//level1 :4 by 7
         // create one top level collection to organize the things in the scene
         myRoot = new Group();
-//        myRectangle= new Rectangle(40,40,60,20);
-//        myRectangle.setStroke(Color.BLACK);
-//        myRectangle.setFill(Color.FLORALWHITE);
-
         // create a place to see the shapes
         var scene = new Scene(myRoot, width, height, background);
 
@@ -56,19 +62,8 @@ public class display extends Application {
 
         myScreen2= new SplashScreen(SPLASH_SCREEN2,0, 0);
         myRoot.getChildren().add(myScreen1.getView());
-        //myRoot.getChildren().remove(myScreen1.getView());
-
-       // myRoot.getChildren().add(myScreen2.getView());
-        //myRoot.getChildren().remove(myScreen2.getView());
-
-        // make some shapes and set their properties
-        // order added to the group is the order in which they are drawn
         myPaddle = new Paddle(PADDLE_IMAGE, width/2-30, height-12, SCREEN_SIZE); //30 and 12 are due to the height 12 and width 60, of the image
         myBouncer = new Bouncer(width/2-10,height-45, 1); //changed it to the correct starting location
-        //myRoot.getChildren().add(myPaddle.getView());
-
-        //myRoot.getChildren().add(myBouncer.getView());
-        //paddleObject.paddleRules(myPaddle);
         // respond to input
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         return scene;
@@ -107,22 +102,30 @@ public class display extends Application {
     }
 
     private void step (double elapsedTime) {//need to make this start only when space bar is entered
-
+        myBouncer.looseALife();
+        Status.displayBar(Rules.myScore, Rules.myLives, 1);
         // update attributes
         if(myBouncer.myState == 1){
-            //myBouncer.moveFirst(0, 0, elapsedTime);
-            myBouncer.getView().setX(myPaddle.getX()+ myPaddle.getFitWidth()/2);
-            myBouncer.getView().setY(myPaddle.getY()- 25); //25 bc the heigth of the image has heigth 12 so it goes a bit above it
+            myBouncer.getView().setX(myPaddle.getView().getX()+ myPaddle.getView().getFitWidth()/2);
+            myBouncer.getView().setY(myPaddle.getView().getY()- 25); //25 bc the heigth of the image has heigth 12 so it goes a bit above it
         }
         else if(myBouncer.myState == 2){
             myBouncer.move(elapsedTime);
+        }
+        if(myRules.checkForWin()){
+            myRoot.getChildren().clear();
+            myRoot.getChildren().add(toDisplayW);
+        }
+        if(myRules.checkForLoss()){
+            myRoot.getChildren().clear();
+            myRoot.getChildren().add(toDisplayl);
         }
         myPaddle.paddleRules();
         myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
     }
 
     public static Boolean intersect(Bouncer ball, Paddle paddle){
-        if (ball.getView().intersects(paddle.getBoundsInParent())){
+        if (ball.getView().intersects(paddle.getView().getBoundsInParent())){
             return true;
         }
         return false;
@@ -132,6 +135,7 @@ public class display extends Application {
         if (ball.getView().intersects(brick.getBoundsInParent())){
             return true;
         }
+
         return false;
     }
 
@@ -149,37 +153,40 @@ public class display extends Application {
         }
         else if (code==KeyCode.SPACE && count==1){
             myRoot.getChildren().remove(myScreen2.getView());
-            myRoot.getChildren().add(myPaddle);
+            myRoot.getChildren().add(myPaddle.getView());
             myRoot.getChildren().add(myBouncer.getView());
+            myRoot.getChildren().add(Status.displayBar(Rules.myScore, Rules.myLives, 1));
             for (Bricks [] each: myBrickArray){
                 for (Bricks object : each){
                     myRoot.getChildren().add(object.myBrick);
                 }
             }
-           // myRoot.getChildren().add(myRectangle);
-            //myRoot.getChildren().add(new Bricks(0,0));
             count+=1;
         }
-        else if(code == KeyCode.SPACE && count == 2) {  //my idea is that when we click space bar it will change its velocity to normal
+        else if(code == KeyCode.SPACE && count == 2) {
            if(myBouncer.myState == 1){
                myBouncer.myState = 2;
            }
         }
+        if(code == KeyCode.R){
+            myBouncer.myState = 1;
+        }
         if (code==KeyCode.L){
-            StatusDisplay.myLives+=1;
+            Rules.myLives+=1;
         }
 
+
         if (code == KeyCode.RIGHT) {
-            myPaddle.setX(myPaddle.getX() + PADDLE_SPEED);
+            myPaddle.getView().setX(myPaddle.getView().getX() + PADDLE_SPEED);
         }
         else if (code == KeyCode.LEFT) {
-            myPaddle.setX(myPaddle.getX() - PADDLE_SPEED);
+            myPaddle.getView().setX(myPaddle.getView().getX() - PADDLE_SPEED);
         }
         else if (code == KeyCode.UP) {
-            myPaddle.setY(this.getSize());
+            myPaddle.getView().setY(this.getSize());
         }
         else if (code == KeyCode.DOWN) {
-            myPaddle.setY(this.getSize());
+            myPaddle.getView().setY(this.getSize());
         }}
 
     public static void main (String[] args) {

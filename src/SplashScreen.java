@@ -8,9 +8,6 @@ public class SplashScreen {
     private double myX;
     private double myY;
 
-
-
-
     public SplashScreen(String screenFile, int width, int height) {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(screenFile));
         myImageView =  new ImageView(image);
