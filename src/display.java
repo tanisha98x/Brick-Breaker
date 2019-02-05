@@ -67,7 +67,7 @@ public class display extends Application {
         myBouncer = new Bouncer(width/2-10,height-45, 1); //changed it to the correct starting location
         // respond to input
         scene.setOnKeyPressed(e -> {
-            try {
+            try { //had to surround almost all with try/catch because the mode file reading requires exception handling
                 handleKeyInput(e.getCode());
             } catch (Exception e1) {
                 e1.printStackTrace();
