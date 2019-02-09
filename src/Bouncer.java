@@ -91,7 +91,7 @@ public class Bouncer  {
         return myImageView;
     }
     public void looseALife(){
-        if(this.getView().getX() >= display.SCREEN_SIZE || this.getView().getY()>= display.SCREEN_SIZE){
+        if(this.getView().getX() >= display.SCREEN_SIZE_WIDTH || this.getView().getY()>= display.SCREEN_SIZE_Height){
             Rules.myLives -= 1;
             this.myState = 1;
         }

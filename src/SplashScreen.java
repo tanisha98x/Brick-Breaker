@@ -15,8 +15,8 @@ public class SplashScreen {
         myImageView.setY(height);
         myX = myImageView.getX();
         myY = myImageView.getX();
-        myImageView.setFitHeight(display.SCREEN_SIZE);
-        myImageView.setFitWidth(display.SCREEN_SIZE);
+        myImageView.setFitHeight(display.SCREEN_SIZE_Height);
+        myImageView.setFitWidth(display.SCREEN_SIZE_WIDTH);
     }
 
     public String getSplashScreen1(){

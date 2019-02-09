@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public class TesterModes{
     private Paddle myPaddle;
-    public static final int SCREEN_SIZE = 800;
+    public static final int SCREEN_SIZE_Width = 840;
+    public static final int SCREEN_SIZE_Height = 800;
     private Bouncer myBouncer;
     private Scene myScene;
     private Rules myRules = new Rules();

@@ -20,8 +20,8 @@ public class Brick {
             myHitsLeft = 1;
         }
 
-        myImageView.setX(100*x);
-        myImageView.setY(25*y);
+        myImageView.setX(70*x);
+        myImageView.setY(55+(20*y));
 
     }
 

@@ -17,7 +17,8 @@ public class display extends Application {
     public static final String SPLASH_SCREEN1 = "splashscreen1.gif";
     public static final String SPLASH_SCREEN2 = "splashscreen2.gif";
     public static final String PADDLE_IMAGE = "paddle.gif";
-    public static final int SCREEN_SIZE = 800;
+    public static final int SCREEN_SIZE_WIDTH = 840;
+    public static final int SCREEN_SIZE_Height = 800;
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -57,7 +58,7 @@ public class display extends Application {
         if(type.equals("splash-1")){
             var splash = new SplashScreen(SPLASH_SCREEN1,0,0);
             myRoot.getChildren().add(splash.getView());
-            scene = new Scene(myRoot, SCREEN_SIZE, SCREEN_SIZE, BACKGROUND);
+            scene = new Scene(myRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_Height, BACKGROUND);
             scene.setOnMouseClicked(e->setStartingStage(stage, "splash-2"));
             stage.setScene(scene);
 
@@ -65,7 +66,7 @@ public class display extends Application {
         else if(type.equals("splash-2")){
             var splash = new SplashScreen(SPLASH_SCREEN2,0,0);
             myRoot.getChildren().add(splash.getView());
-            scene = new Scene(myRoot, SCREEN_SIZE, SCREEN_SIZE, BACKGROUND);
+            scene = new Scene(myRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_Height, BACKGROUND);
             scene.setOnMouseClicked(e->startGame());
             stage.setScene(scene);
         }
@@ -76,6 +77,7 @@ public class display extends Application {
 
     private void startGame(){
         var myScene = makeLevel(1);
+        myScene.fillProperty().setValue(Color.PINK);
         myStage.setScene(myScene);
 
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
@@ -108,7 +110,7 @@ public class display extends Application {
 
             }
         }
-        var scene = new Scene(root, SCREEN_SIZE, SCREEN_SIZE); //figure if this is correct
+        var scene = new Scene(root, SCREEN_SIZE_WIDTH, SCREEN_SIZE_Height); //figure if this is correct
 
         scene.setOnKeyPressed(e -> {
             try {
@@ -122,15 +124,15 @@ public class display extends Application {
 
     private Group addGameObjects(){
         Group root = new Group();
-        myPaddle = new Paddle(PADDLE_IMAGE, SCREEN_SIZE/2-30, SCREEN_SIZE-13, SCREEN_SIZE);
-        myBouncer = new Bouncer(SCREEN_SIZE/2-10,SCREEN_SIZE-45, 1);
+        myPaddle = new Paddle(PADDLE_IMAGE, SCREEN_SIZE_WIDTH/2-30, SCREEN_SIZE_Height-13, SCREEN_SIZE_WIDTH);
+        myBouncer = new Bouncer(SCREEN_SIZE_WIDTH/2-10,SCREEN_SIZE_Height-45, 1);
         root.getChildren().add(myPaddle.getView());
         root.getChildren().add(myBouncer.getView());
         return root;
     }
     private Text setUp(Text t) {
-        t.setY(SCREEN_SIZE/2);
-        t.setX(SCREEN_SIZE/2);
+        t.setY(SCREEN_SIZE_Height/2);
+        t.setX(SCREEN_SIZE_WIDTH/2);
         return t;
     }
 
@@ -173,7 +175,7 @@ public class display extends Application {
               //  makeWinLoseScreen(false);
             //}
             myPaddle.paddleRules();
-            myBouncer.bounce(SCREEN_SIZE, myPaddle, myBrickArray);
+            myBouncer.bounce(SCREEN_SIZE_WIDTH, myPaddle, myBrickArray);
         }
         if(mode == 2){
             //Modes.stepMode2(elapsedTime);
@@ -230,10 +232,10 @@ public class display extends Application {
             myPaddle.getView().setX(myPaddle.getView().getX() - PADDLE_SPEED);
         }
         else if (code == KeyCode.UP) {
-            myPaddle.getView().setY(SCREEN_SIZE - 13);
+            myPaddle.getView().setY(SCREEN_SIZE_Height - 13);
         }
         else if (code == KeyCode.DOWN) {
-            myPaddle.getView().setY(SCREEN_SIZE -13);
+            myPaddle.getView().setY(SCREEN_SIZE_Height -13);
         }
         if(code == KeyCode.DIGIT1){
             changeLevel(1);

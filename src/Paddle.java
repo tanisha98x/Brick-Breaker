@@ -10,14 +10,14 @@ public class Paddle {
     /**
      * Creates a paddle object
      */
-    public Paddle(String PADDLE_IMAGE, int startXPos, int startYPos, int sizeOfDisplay){
+    public Paddle(String PADDLE_IMAGE, int startXPos, int startYPos, int sizeOfDisplayWidth){
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myImageView = new ImageView(image);
         myImageView.setFitHeight(image.getHeight());
         myImageView.setFitWidth(image.getWidth());
         myImageView.setX(startXPos);
         myImageView.setY(startYPos);
-        displaySize = sizeOfDisplay;
+        displaySize = sizeOfDisplayWidth;
     }
 
     public void changePaddleSpeed(int speedIncrease){
