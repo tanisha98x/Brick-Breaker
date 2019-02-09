@@ -12,7 +12,6 @@ public class Bouncer  {
     public static int BOUNCER_SPEED = 15;
     private double x_Direction;
     private double y_Direction;
-
     private double myX;
     private double myY;
     public double myVelocityX = 100;
@@ -37,11 +36,10 @@ public class Bouncer  {
         return myVelocityY;
     }
 
-    public void updateVelocity(){ //ball moves a little faster everytime it hits the paddle--Power Up
+    public void updateVelocity(){
         myVelocityX+=5;
         myVelocityY+=5;
     }
-
 
     public void bouncer(String BOUNCER_IMAGE){
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
@@ -52,48 +50,40 @@ public class Bouncer  {
         myY = myImageView.getX();
     }
 
-
     public void move(double elapsedTime){
         myImageView.setY(myImageView.getY() + myVelocityY * elapsedTime);
         myImageView.setX(myImageView.getX() + myVelocityX * elapsedTime);
     }
 
-    public void bounce(double screenWidth, Paddle paddle, Brick [][] myBrickArray){
-        int row=-1;
-        int col=-1;
-        if (display.intersect(this,  paddle)){//edit so Y changes when top and x when side
-            myVelocityY*=-1;
+    public void bounce(double screenWidth, Paddle paddle, Brick [][] myBrickArray) {
+        int row = -1;
+        int col = -1;
+        if (display.intersect(this, paddle)) {//edit so Y changes when top and x when side
+            myVelocityY *= -1;
             updateVelocity();
         }
-        for (Brick [] each: myBrickArray){ //remove from brick array!!
-            row+=1;
-            for (Brick myBrick : each){
-                if (display.destroyBrick(this,  myBrick) && !myBrick.myInvisibility){
-                    display.myRoot.getChildren().remove(myBrick);
-                    myBrick.myInvisibility=true;
-                    Rules.myScore += 1;
-                    Bricks.myBrickNumber -=1;
-                    myVelocityY*=-1;
+        for (Brick[] each : myBrickArray) { //remove from brick array!!
+            row += 1;
+            for (Brick myBrick : each) {
+                if (myBrick != null) {
+                    if (display.destroyBrick(this, myBrick) && !myBrick.myInvisibility) {
+                        display.myRoot.getChildren().remove(myBrick);
+                        myBrick.myInvisibility = true;
+                        Rules.myScore += 1;
+                        BrickManager.myBrickNumber -= 1;
+                        myVelocityY *= -1;
 
-                    //myBrickArray.remove(object);
+                    }
+
+                    if (myImageView.getX() <= 0 || myImageView.getX() + myImageView.getImage().getWidth() >= screenWidth) {//add width and height
+                        myVelocityX *= -1;
+                    }
+                    if (myImageView.getY() <= 0) {
+                        myVelocityY *= -1;
+                    }
+
+                }
             }
-        }
-//        if (display.intersect(this,  paddle)){
-//            myVelocityY*=-1;
-//            updateVelocity();
-//        }
-//        if (display.destroyBrick(this,  brick)){
-//            myVelocityY*=-1;
-//            root.getChildren().remove(brick);
-
-
-        }
-
-        if(myImageView.getX()<=0||myImageView.getX()+myImageView.getImage().getWidth()>= screenWidth){//add width and height
-            myVelocityX*=-1;
-        }
-        if(myImageView.getY()<=0){//||myImageView.getY()>= screenHeight
-            myVelocityY*=-1;
         }
     }
 

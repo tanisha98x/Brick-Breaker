@@ -22,9 +22,6 @@ public class display extends Application {
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.PINK;
-    private SplashScreen myScreen1;
-    private SplashScreen myScreen2;
-    private int count = 0;
     private Paddle myPaddle;
     private Bouncer myBouncer;
     private Rules myRules = new Rules();
@@ -35,46 +32,47 @@ public class display extends Application {
     private Text toDisplayW = setUp(w);
     private Text toDisplayl = setUp(l);
     private StatusDisplay Status = new StatusDisplay();
-    private TesterModes Modes = new TesterModes();
+    //private TesterModes Modes = new TesterModes();
     private Stage myStage;
     private Brick[][] myBrickArray;
 
 
-    private Scene startScreen (int width, int height, Paint background,  String SPLASH_SCREEN1, String SPLASH_SCREEN2) {//level1 :4 by 7
-        // create one top level collection to organize the things in the scene
-        myRoot = new Group();
-        // create a place to see the shapes
-        var scene = new Scene(myRoot, width, height, background);
-
-        myScreen1= new SplashScreen(SPLASH_SCREEN1,0, 0);
-
-        myScreen2= new SplashScreen(SPLASH_SCREEN2,0, 0);
-        myRoot.getChildren().add(myScreen1.getView());
-        // respond to input
-        scene.setOnKeyPressed(e -> {
-            try { //had to surround almost all with try/catch because the mode file reading requires exception handling
-                handleKeyInput(e.getCode());
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-        return scene;
-    }
 
     /**
      * Initialize what will be displayed and how it will be updated.
      */
     @Override
+
     public void start (Stage stage) {
         myStage = stage;
         // attach scene to the stage and display itv
-        Scene myScene = startScreen(SCREEN_SIZE, SCREEN_SIZE, BACKGROUND, SPLASH_SCREEN1, SPLASH_SCREEN2);
-        myScene.setOnKeyPressed(e ->startGame());
-        myStage.setScene(myScene);
-        myStage.setTitle(TITLE);
-        myStage.setResizable(false);
-        myStage.show();
+        setStartingStage(myStage, "splash-1");
+
     }
+
+
+    private void setStartingStage(Stage stage, String type) {
+        myRoot = new Group();
+        Scene scene;
+        if(type.equals("splash-1")){
+            var splash = new SplashScreen(SPLASH_SCREEN1,0,0);
+            myRoot.getChildren().add(splash.getView());
+            scene = new Scene(myRoot, SCREEN_SIZE, SCREEN_SIZE, BACKGROUND);
+            scene.setOnMouseClicked(e->setStartingStage(stage, "splash-2"));
+            stage.setScene(scene);
+
+        }
+        else if(type.equals("splash-2")){
+            var splash = new SplashScreen(SPLASH_SCREEN2,0,0);
+            myRoot.getChildren().add(splash.getView());
+            scene = new Scene(myRoot, SCREEN_SIZE, SCREEN_SIZE, BACKGROUND);
+            scene.setOnMouseClicked(e->startGame());
+            stage.setScene(scene);
+        }
+        stage.show();
+
+    }
+
 
     private void startGame(){
         var myScene = makeLevel(1);
@@ -104,7 +102,10 @@ public class display extends Application {
         }
         for (Brick[] row : myBrickArray){
             for (Brick myBrick : row){
+                if(myBrick != null){
                 root.getChildren().add(myBrick.getNode());
+                }
+
             }
         }
         var scene = new Scene(root, SCREEN_SIZE, SCREEN_SIZE); //figure if this is correct
@@ -165,25 +166,25 @@ public class display extends Application {
             } else if (myBouncer.myState == 2) {
                 myBouncer.move(elapsedTime);
             }
-            if (myRules.checkForWin()) {
-                makeLevel(Rules.myLevel+1);
-            }
-            if (myRules.checkForLoss()) {
-                makeWinLoseScreen(false);
-            }
+          //  if (myRules.checkForWin()) {
+            //    makeLevel(Rules.myLevel+1);
+            //}
+            //if (myRules.checkForLoss()) {
+              //  makeWinLoseScreen(false);
+            //}
             myPaddle.paddleRules();
             myBouncer.bounce(SCREEN_SIZE, myPaddle, myBrickArray);
         }
         if(mode == 2){
-            Modes.stepMode2(elapsedTime);
+            //Modes.stepMode2(elapsedTime);
 
         }
         if(mode == 3){
-            Modes.stepMode3(elapsedTime);
+            //Modes.stepMode3(elapsedTime);
 
         }
         if(mode == 4){
-            Modes.stepMode4(elapsedTime);
+           // Modes.stepMode4(elapsedTime);
         }
     }
 
@@ -202,15 +203,7 @@ public class display extends Application {
     }
 
     public void handleKeyInput (KeyCode code) throws Exception { //combine key methods
-        if (code==KeyCode.SPACE && count==0){
-            myRoot.getChildren().remove(myScreen1.getView());
-            myRoot.getChildren().add(myScreen2.getView());
-            count+=1;
-        }
-        else if (code==KeyCode.SPACE && count==1){
-
-        }
-        else if(code == KeyCode.SPACE && count == 2) {
+        if(code == KeyCode.SPACE) {
            if(myBouncer.myState == 1){
                myBouncer.myState = 2;
            }

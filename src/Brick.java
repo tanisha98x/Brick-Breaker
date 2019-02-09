@@ -6,7 +6,6 @@ public class Brick {
     private ImageView myImageView;
     private double myHitsLeft;
     private boolean myPowerUp;
-    public static int myBrickNumber;
     public boolean myInvisibility;
 
     public Brick(int brickType, int y, int x) {

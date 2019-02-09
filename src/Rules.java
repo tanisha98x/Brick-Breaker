@@ -17,7 +17,7 @@ public class Rules {
 
     public boolean checkForWin(){
         boolean status;
-       if(Brick.myBrickNumber == 0){
+       if(BrickManager.myBrickNumber == 0){
            status = true;
            myLevel +=1;
        }
