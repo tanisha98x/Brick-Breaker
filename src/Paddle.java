@@ -10,8 +10,7 @@ public class Paddle {
     /**
      * Creates a paddle object
      */
-    public Paddle(String PADDLE_IMAGE, int startXPos, int startYPos, int sizeOfDisplay){ //yposition just be the height minus height of paddle
-        //super();
+    public Paddle(String PADDLE_IMAGE, int startXPos, int startYPos, int sizeOfDisplay){
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myImageView = new ImageView(image);
         myImageView.setFitHeight(image.getHeight());
@@ -43,5 +42,18 @@ public class Paddle {
         return myImageView;
     }
 
-
+    public void HandleKeyInput(KeyCode code){
+        if (code == KeyCode.RIGHT) {
+            this.getView().setX(this.getView().getX() + PADDLE_SPEED);
+        }
+        else if (code == KeyCode.LEFT) {
+            this.getView().setX(this.getView().getX() - PADDLE_SPEED);
+        }
+        else if (code == KeyCode.UP) {
+            this.getView().setY(displaySize - 13);
+        }
+        else if (code == KeyCode.DOWN) {
+            this.getView().setY(displaySize -13);
+        }
+    }
 }

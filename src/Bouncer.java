@@ -58,26 +58,19 @@ public class Bouncer  {
         myImageView.setX(myImageView.getX() + myVelocityX * elapsedTime);
     }
 
-    public void bounce(double screenWidth, Paddle paddle, Bricks [][] myBrickArray){
+    public void bounce(double screenWidth, Paddle paddle, Brick [][] myBrickArray){
         int row=-1;
         int col=-1;
         if (display.intersect(this,  paddle)){//edit so Y changes when top and x when side
             myVelocityY*=-1;
             updateVelocity();
         }
-        for (Bricks [] each: myBrickArray){ //remove from brick array!!
+        for (Brick [] each: myBrickArray){ //remove from brick array!!
             row+=1;
-            for (Bricks object : each){
-
-
-
-//                if (display.intersect(this,  paddle)){
-//                    myVelocityY*=-1;
-//                    updateVelocity();
-//                }
-                if (display.destroyBrick(this,  object.myBrick) && !object.myInvisibility){
-                    display.myRoot.getChildren().remove(object.myBrick);
-                    object.myInvisibility=true;
+            for (Brick myBrick : each){
+                if (display.destroyBrick(this,  myBrick) && !myBrick.myInvisibility){
+                    display.myRoot.getChildren().remove(myBrick);
+                    myBrick.myInvisibility=true;
                     Rules.myScore += 1;
                     Bricks.myBrickNumber -=1;
                     myVelocityY*=-1;

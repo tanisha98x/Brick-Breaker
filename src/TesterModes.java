@@ -1,16 +1,6 @@
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -20,7 +10,16 @@ public class TesterModes{
     private Bouncer myBouncer;
     private Scene myScene;
     private Rules myRules = new Rules();
-    private static Bricks[][] myBrickArray= BrickManager.createBrickArray(4,7,SCREEN_SIZE*0.8, 20, SCREEN_SIZE*0.6, 10);
+    private static Brick[][] myBrickArray;
+
+    static {
+        try {
+            myBrickArray = BrickManager.createBrickArray(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Group myRoot;
     private StatusDisplay Status = new StatusDisplay();
 

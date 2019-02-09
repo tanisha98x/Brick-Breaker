@@ -22,38 +22,25 @@ public class display extends Application {
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.PINK;
-    private Scene myScene;
     private SplashScreen myScreen1;
     private SplashScreen myScreen2;
+    private int count = 0;
     private Paddle myPaddle;
     private Bouncer myBouncer;
-    private Bricks myBricks;
     private Rules myRules = new Rules();
     public static Group myRoot;
-    private boolean instructionsShown= true;
-    private boolean gameStarted= true;
-    private int count = 0;
     private static int PADDLE_SPEED = 15;
-    private static Bricks[][] myBrickArray= BrickManager.createBrickArray(4,7,SCREEN_SIZE*0.8, 20, SCREEN_SIZE*0.6, 10);
     private Text w = new Text("Congratulations, you won :') !!");
     private Text l = new Text("So sorry you lost :'( ");
     private Text toDisplayW = setUp(w);
     private Text toDisplayl = setUp(l);
     private StatusDisplay Status = new StatusDisplay();
     private TesterModes Modes = new TesterModes();
-
-    private Text setUp(Text t) {
-        t.setY(SCREEN_SIZE/2);
-        t.setX(SCREEN_SIZE/2);
-        return t;
-    }
-
-    public Group getRoot(){
-        return myRoot;
-    }
+    private Stage myStage;
+    private Brick[][] myBrickArray;
 
 
-    private Scene setupGame (int width, int height, Paint background,  String SPLASH_SCREEN1, String SPLASH_SCREEN2) {//level1 :4 by 7
+    private Scene startScreen (int width, int height, Paint background,  String SPLASH_SCREEN1, String SPLASH_SCREEN2) {//level1 :4 by 7
         // create one top level collection to organize the things in the scene
         myRoot = new Group();
         // create a place to see the shapes
@@ -63,8 +50,6 @@ public class display extends Application {
 
         myScreen2= new SplashScreen(SPLASH_SCREEN2,0, 0);
         myRoot.getChildren().add(myScreen1.getView());
-        myPaddle = new Paddle(PADDLE_IMAGE, width/2-30, height-13, SCREEN_SIZE); //30 and 13 are due to the height 12 and width 60, of the image
-        myBouncer = new Bouncer(width/2-10,height-45, 1); //changed it to the correct starting location
         // respond to input
         scene.setOnKeyPressed(e -> {
             try { //had to surround almost all with try/catch because the mode file reading requires exception handling
@@ -81,13 +66,20 @@ public class display extends Application {
      */
     @Override
     public void start (Stage stage) {
-        // attach scene to the stage and display it
-        myScene = setupGame(SCREEN_SIZE, SCREEN_SIZE, BACKGROUND, SPLASH_SCREEN1, SPLASH_SCREEN2);
-        stage.setScene(myScene);
-        stage.setTitle(TITLE);
-        stage.setResizable(false);
-        stage.show();
-        // attach "game loop" to timeline to play it
+        myStage = stage;
+        // attach scene to the stage and display itv
+        Scene myScene = startScreen(SCREEN_SIZE, SCREEN_SIZE, BACKGROUND, SPLASH_SCREEN1, SPLASH_SCREEN2);
+        myScene.setOnKeyPressed(e ->startGame());
+        myStage.setScene(myScene);
+        myStage.setTitle(TITLE);
+        myStage.setResizable(false);
+        myStage.show();
+    }
+
+    private void startGame(){
+        var myScene = makeLevel(1);
+        myStage.setScene(myScene);
+
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
             try {
                 step(1, SECOND_DELAY);
@@ -101,46 +93,86 @@ public class display extends Application {
         animation.play();
     }
 
-    public void makeScene(Stage stage){
-        myScene = setupGame(SCREEN_SIZE, SCREEN_SIZE, BACKGROUND, SPLASH_SCREEN1, SPLASH_SCREEN2);
-        stage.setScene(myScene);
-        stage.setTitle(TITLE);
-        stage.show();
-        // attach "game loop" to timeline to play it
-       var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
-           try {
-               step(1, SECOND_DELAY);
-           } catch (Exception e1) {
-               e1.printStackTrace();
-           }
-       });
-        var animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
+    private Scene makeLevel(int level) {
+        Group root = addGameObjects();
+        root.getChildren().add(Status.displayBar(Rules.myScore, Rules.myLives, level));
+        myBrickArray = new Brick[0][];
+        try {
+            myBrickArray = BrickManager.createBrickArray(level);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (Brick[] row : myBrickArray){
+            for (Brick myBrick : row){
+                root.getChildren().add(myBrick.getNode());
+            }
+        }
+        var scene = new Scene(root, SCREEN_SIZE, SCREEN_SIZE); //figure if this is correct
+
+        scene.setOnKeyPressed(e -> {
+            try {
+                handleKeyInput(e.getCode());
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
+        return scene;
     }
 
-    private void step (int mode, double elapsedTime) throws Exception {//need to make this start only when space bar is entered
+    private Group addGameObjects(){
+        Group root = new Group();
+        myPaddle = new Paddle(PADDLE_IMAGE, SCREEN_SIZE/2-30, SCREEN_SIZE-13, SCREEN_SIZE);
+        myBouncer = new Bouncer(SCREEN_SIZE/2-10,SCREEN_SIZE-45, 1);
+        root.getChildren().add(myPaddle.getView());
+        root.getChildren().add(myBouncer.getView());
+        return root;
+    }
+    private Text setUp(Text t) {
+        t.setY(SCREEN_SIZE/2);
+        t.setX(SCREEN_SIZE/2);
+        return t;
+    }
+
+    public void makeWinLoseScreen(boolean win) {
+        if(win){
+            myRoot.getChildren().clear();
+            myRoot.getChildren().add(toDisplayW);
+        }
+        else{
+            myRoot.getChildren().clear();
+            myRoot.getChildren().add(toDisplayl);
+        }
+    }
+    public void changeLevel(int level){
+        Scene scene;
+        if(level >= 4){
+            makeWinLoseScreen(true);
+        }
+        else{
+            makeLevel(level);
+
+        }
+    }
+
+    private void step (int mode, double elapsedTime) throws Exception {
         if(mode == 1) {
             myBouncer.looseALife();
-            Status.displayBar(Rules.myScore, Rules.myLives, 1);
+            Status.displayBar(Rules.myScore, Rules.myLives, Rules.myLevel);
             // update attributes
             if (myBouncer.myState == 1) {
                 myBouncer.getView().setX(myPaddle.getView().getX() + myPaddle.getView().getFitWidth() / 2);
-                myBouncer.getView().setY(myPaddle.getView().getY() - 25); //25 bc the height of the image has height 12 so it goes a bit above it
+                myBouncer.getView().setY(myPaddle.getView().getY() - 25);
             } else if (myBouncer.myState == 2) {
                 myBouncer.move(elapsedTime);
             }
             if (myRules.checkForWin()) {
-                myRoot.getChildren().clear();
-                myRoot.getChildren().add(toDisplayW);
+                makeLevel(Rules.myLevel+1);
             }
             if (myRules.checkForLoss()) {
-                myRoot.getChildren().clear();
-                myRoot.getChildren().add(toDisplayl);
+                makeWinLoseScreen(false);
             }
             myPaddle.paddleRules();
-            myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
+            myBouncer.bounce(SCREEN_SIZE, myPaddle, myBrickArray);
         }
         if(mode == 2){
             Modes.stepMode2(elapsedTime);
@@ -162,8 +194,8 @@ public class display extends Application {
         return false;
     }
 
-    public static Boolean destroyBrick(Bouncer ball, Rectangle brick){
-        if (ball.getView().intersects(brick.getBoundsInParent())){
+    public static Boolean destroyBrick(Bouncer ball, Brick mybrick){
+        if (ball.getView().intersects(mybrick.getNode().getBoundsInParent())){
             return true;
         }
         return false;
@@ -176,16 +208,7 @@ public class display extends Application {
             count+=1;
         }
         else if (code==KeyCode.SPACE && count==1){
-            myRoot.getChildren().remove(myScreen2.getView());
-            myRoot.getChildren().add(myPaddle.getView());
-            myRoot.getChildren().add(myBouncer.getView());
-            myRoot.getChildren().add(Status.displayBar(Rules.myScore, Rules.myLives, 1));
-            for (Bricks [] each: myBrickArray){
-                for (Bricks object : each){
-                    myRoot.getChildren().add(object.myBrick);
-                }
-            }
-            count+=1;
+
         }
         else if(code == KeyCode.SPACE && count == 2) {
            if(myBouncer.myState == 1){
@@ -218,6 +241,18 @@ public class display extends Application {
         }
         else if (code == KeyCode.DOWN) {
             myPaddle.getView().setY(SCREEN_SIZE -13);
+        }
+        if(code == KeyCode.DIGIT1){
+            changeLevel(1);
+        }
+        if(code == KeyCode.DIGIT2){
+            changeLevel(2);
+        }
+        if(code == KeyCode.DIGIT3){
+            changeLevel(3);
+        }
+        if(code == KeyCode.DIGIT4){
+            changeLevel(4);
         }
     }
 

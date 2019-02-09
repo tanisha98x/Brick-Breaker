@@ -1,43 +1,30 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 public class BrickManager {
 
-    public static void numberOfBricks(int brickNumberAcross, int brickNumberDown){
-        Bricks.myBrickNumber = brickNumberAcross*brickNumberDown;
-    }
-    public  static Bricks [][] createBrickArray(int brickNumberAcross, int brickNumberDown,double brickAreaWidth, double widthGap,double brickAreaHeight, double heightGap){
-        Bricks [][] brickArray= new Bricks [brickNumberAcross][brickNumberDown];
-        numberOfBricks(brickNumberAcross, brickNumberDown);
-        double startingXpos=calculateStartingXPos(brickAreaWidth);
-        double startingYpos=calculateStartingYPos(brickAreaHeight);
-        double brickWidth= calculateBrickWidth( brickAreaWidth,  widthGap,  brickNumberAcross);
-        double brickHeight= calculateBrickHeight( brickAreaHeight,  heightGap,  brickNumberDown);
+    public static Brick [][] createBrickArray(int level) throws Exception{
 
-        for (int i=0; i<brickNumberAcross; i++){
-            for (int k=0; k<brickNumberDown; k++){
-                if (k==0){startingYpos=calculateStartingYPos(brickAreaHeight);}
-                brickArray[i][k]=new Bricks(startingXpos, startingYpos, brickWidth, brickHeight, false, 1);
-                startingYpos+=heightGap+brickHeight;
+        //read first two ints which will instantiate brickNumberAcross, brickNumberDown
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        InputStreamReader data = new InputStreamReader(loader.getResourceAsStream(String.format("Level%dConfiguration",level)));
+        BufferedReader input = new BufferedReader(data);
+        String inputLine;
 
+        int brickNumberDown = Integer.parseInt(input.readLine());
+        int brickNumberAcross = Integer.parseInt(input.readLine());
+        Brick[][]brickArray = new Brick[brickNumberDown][brickNumberAcross];
+        for (int i = 0; i < brickNumberDown; i++) {
+            for (int k = 0; k < brickNumberAcross; k++) {
+                int read = Integer.parseInt(input.readLine());
+                if (read != 0) {
+                    brickArray[i][k] = new Brick(read, i, k);
+                }
             }
-            startingXpos+=widthGap+brickWidth;
+
         }
         return brickArray;
     }
 
-    public static double calculateBrickWidth(double brickAreaWidth, double widthGap, int brickNumberAcross){
-        return ((brickAreaWidth-(widthGap*(brickNumberAcross-2)))/brickNumberAcross);
-    }
-
-    public static double calculateBrickHeight(double brickAreaHeight, double heightGap, int brickNumberDown){
-        return ((brickAreaHeight-(heightGap*(brickNumberDown-2)))/brickNumberDown);
-    }
-
-    public static double calculateStartingXPos(double brickAreaWidth){//need to work on alignment but looks ok for now
-        return (display.SCREEN_SIZE-brickAreaWidth)/2.5;
-    }
-
-
-    public  static double calculateStartingYPos(double brickAreaHeight){
-        return (display.SCREEN_SIZE-brickAreaHeight)/3;
-    }
 
 }
