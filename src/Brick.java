@@ -11,6 +11,7 @@ public class Brick {
     public Brick(int brickType, int y, int x) {
         var image =  new Image(this.getClass().getClassLoader().getResourceAsStream("brick" + brickType + ".gif"));
         myImageView = new ImageView(image);
+        myInvisibility = false;
         if(brickType <= 4){
             myPowerUp = false;
             myHitsLeft = brickType;
