@@ -152,7 +152,9 @@ public class display extends Application {
             makeWinLoseScreen(true);
         }
         else{
-            makeLevel(level);
+            scene = makeLevel(level);
+            myStage.setScene(scene);
+            myStage.show();
 
         }
     }
