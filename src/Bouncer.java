@@ -67,8 +67,15 @@ public class Bouncer  {
             for (Brick myBrick : each) {
                 if (myBrick != null) {
                     if (display.destroyBrick(this, myBrick) && !myBrick.myInvisibility) {
-                        display.myRoot.getChildren().remove(myBrick);
-                        myBrick.myInvisibility = true;
+                        myBrick.myHitsLeft -=1;
+                        if(myBrick.myHitsLeft ==0) {
+                            myBrick.myInvisibility = true;
+                            BrickManager.removeBrick(myBrick, display.myGameRoot);
+                        }
+                        //else{
+                          //  myBrick.changeBrickType(myBrick, myBrick.myHitsLeft);
+
+                       // }
                         Rules.myScore += 1;
                         BrickManager.myBrickNumber -= 1;
                         myVelocityY *= -1;

@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 
 public class display extends Application {
@@ -26,7 +25,8 @@ public class display extends Application {
     private Paddle myPaddle;
     private Bouncer myBouncer;
     private Rules myRules = new Rules();
-    public static Group myRoot;
+    public static Group myInitialRoot;
+    public static Group myGameRoot;
     private static int PADDLE_SPEED = 15;
     private Text w = new Text("Congratulations, you won :') !!");
     private Text l = new Text("So sorry you lost :'( ");
@@ -53,20 +53,20 @@ public class display extends Application {
 
 
     private void setStartingStage(Stage stage, String type) {
-        myRoot = new Group();
+        myInitialRoot = new Group();
         Scene scene;
         if(type.equals("splash-1")){
             var splash = new SplashScreen(SPLASH_SCREEN1,0,0);
-            myRoot.getChildren().add(splash.getView());
-            scene = new Scene(myRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_Height, BACKGROUND);
+            myInitialRoot.getChildren().add(splash.getView());
+            scene = new Scene(myInitialRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_Height, BACKGROUND);
             scene.setOnMouseClicked(e->setStartingStage(stage, "splash-2"));
             stage.setScene(scene);
 
         }
         else if(type.equals("splash-2")){
             var splash = new SplashScreen(SPLASH_SCREEN2,0,0);
-            myRoot.getChildren().add(splash.getView());
-            scene = new Scene(myRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_Height, BACKGROUND);
+            myInitialRoot.getChildren().add(splash.getView());
+            scene = new Scene(myInitialRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_Height, BACKGROUND);
             scene.setOnMouseClicked(e->startGame());
             stage.setScene(scene);
         }
@@ -94,8 +94,8 @@ public class display extends Application {
     }
 
     private Scene makeLevel(int level) {
-        Group root = addGameObjects();
-        root.getChildren().add(Status.displayBar(Rules.myScore, Rules.myLives, level));
+        myGameRoot = addGameObjects();
+        myGameRoot.getChildren().add(Status.displayBar(Rules.myScore, Rules.myLives, level));
         myBrickArray = new Brick[0][];
         try {
             myBrickArray = BrickManager.createBrickArray(level);
@@ -105,13 +105,13 @@ public class display extends Application {
         for (Brick[] row : myBrickArray){
             for (Brick myBrick : row){
                 if(myBrick != null){
-                root.getChildren().add(myBrick.getNode());
+                myGameRoot.getChildren().add(myBrick.getNode());
                 }
 
             }
         }
-        var scene = new Scene(root, SCREEN_SIZE_WIDTH, SCREEN_SIZE_Height); //figure if this is correct
-
+        var scene = new Scene(myGameRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_Height); //figure if this is correct
+        scene.fillProperty().setValue(Color.PINK);
         scene.setOnKeyPressed(e -> {
             try {
                 handleKeyInput(e.getCode());
@@ -138,17 +138,17 @@ public class display extends Application {
 
     public void makeWinLoseScreen(boolean win) {
         if(win){
-            myRoot.getChildren().clear();
-            myRoot.getChildren().add(toDisplayW);
+            myGameRoot.getChildren().clear();
+            myGameRoot.getChildren().add(toDisplayW);
         }
         else{
-            myRoot.getChildren().clear();
-            myRoot.getChildren().add(toDisplayl);
+            myGameRoot.getChildren().clear();
+            myGameRoot.getChildren().add(toDisplayl);
         }
     }
     public void changeLevel(int level){
         Scene scene;
-        if(level >= 4){
+        if(level > 4){
             makeWinLoseScreen(true);
         }
         else{
@@ -170,12 +170,12 @@ public class display extends Application {
             } else if (myBouncer.myState == 2) {
                 myBouncer.move(elapsedTime);
             }
-          //  if (myRules.checkForWin()) {
-            //    makeLevel(Rules.myLevel+1);
-            //}
-            //if (myRules.checkForLoss()) {
-              //  makeWinLoseScreen(false);
-            //}
+            if (myRules.checkForWin()) {
+                makeLevel(Rules.myLevel+1);
+            }
+            if (myRules.checkForLoss()) {
+                makeWinLoseScreen(false);
+            }
             myPaddle.paddleRules();
             myBouncer.bounce(SCREEN_SIZE_WIDTH, myPaddle, myBrickArray);
         }

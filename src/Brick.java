@@ -4,8 +4,8 @@ import javafx.scene.image.ImageView;
 
 public class Brick {
     private ImageView myImageView;
-    private double myHitsLeft;
-    private boolean myPowerUp;
+    public double myHitsLeft;
+    public boolean myPowerUp;
     public boolean myInvisibility;
 
     public Brick(int brickType, int y, int x) {
@@ -16,7 +16,7 @@ public class Brick {
             myPowerUp = false;
             myHitsLeft = brickType;
         }
-        if(brickType >=4 ){
+        if(brickType >4 ){
             myPowerUp = true;
             myHitsLeft = 1;
         }
@@ -28,6 +28,11 @@ public class Brick {
 
     public Node getNode(){
         return myImageView;
+    }
+
+   public Brick changeBrickType(Brick myBrick, double HitsLeft){
+        myBrick
+
     }
 
 

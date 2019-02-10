@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import javafx.scene.Group;
 
 public class BrickManager {
 
@@ -29,6 +30,11 @@ public class BrickManager {
         }
         return brickArray;
     }
-
+    public static Group removeBrick(Brick myBrick, Group myroot){
+        if(myBrick.myInvisibility) {
+            myroot.getChildren().remove(myBrick.getNode());
+        }
+        return myroot;
+    }
 
 }
