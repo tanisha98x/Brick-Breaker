@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class Bouncer  {
     public static final String BOUNCER_IMAGE = "ball2.png";
-    public static int BOUNCER_SPEED = 15;
+    public static int BOUNCER_SPEED = 100;
     private double x_Direction;
     private double y_Direction;
     private double myX;
@@ -72,10 +72,9 @@ public class Bouncer  {
                             myBrick.myInvisibility = true;
                             BrickManager.removeBrick(myBrick, display.myGameRoot);
                         }
-                        //else{
-                          //  myBrick.changeBrickType(myBrick, myBrick.myHitsLeft);
-
-                       // }
+                        else{
+                           myBrick.changeBrickType(myBrick, myBrick.myHitsLeft);
+                        }
                         Rules.myScore += 1;
                         BrickManager.myBrickNumber -= 1;
                         myVelocityY *= -1;

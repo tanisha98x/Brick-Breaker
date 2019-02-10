@@ -4,9 +4,11 @@ import javafx.scene.image.ImageView;
 
 public class Brick {
     private ImageView myImageView;
-    public double myHitsLeft;
+    public int myHitsLeft;
     public boolean myPowerUp;
     public boolean myInvisibility;
+    private int myX;
+    private int myY;
 
     public Brick(int brickType, int y, int x) {
         var image =  new Image(this.getClass().getClassLoader().getResourceAsStream("brick" + brickType + ".gif"));
@@ -23,6 +25,8 @@ public class Brick {
 
         myImageView.setX(70*x);
         myImageView.setY(55+(20*y));
+        myX = x;
+        myY = y;
 
     }
 
@@ -30,9 +34,9 @@ public class Brick {
         return myImageView;
     }
 
-   public Brick changeBrickType(Brick myBrick, double HitsLeft){
-        myBrick
-
+   public Node changeBrickType(Brick myBrick, int HitsLeft){
+        myBrick = new Brick(HitsLeft, myBrick.myY, myBrick.myX );
+        return myBrick.getNode();
     }
 
 
