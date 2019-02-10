@@ -153,6 +153,8 @@ public class display extends Application {
         }
         else{
             scene = makeLevel(level);
+            switch (Rules.myLevel = level) {
+            }
             myStage.setScene(scene);
             myStage.show();
 

@@ -71,12 +71,12 @@ public class Bouncer  {
                         if(myBrick.myHitsLeft ==0) {
                             myBrick.myInvisibility = true;
                             BrickManager.removeBrick(myBrick, display.myGameRoot);
+                            BrickManager.myBrickNumber -= 1;
                         }
                         else{
                            myBrick.changeBrickType(myBrick, myBrick.myHitsLeft);
                         }
                         Rules.myScore += 1;
-                        BrickManager.myBrickNumber -= 1;
                         myVelocityY *= -1;
 
                     }
