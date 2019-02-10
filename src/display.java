@@ -17,7 +17,7 @@ public class display extends Application {
     public static final String SPLASH_SCREEN2 = "splashscreen2.gif";
     public static final String PADDLE_IMAGE = "paddle.gif";
     public static final int SCREEN_SIZE_WIDTH = 840;
-    public static final int SCREEN_SIZE_Height = 800;
+    public static final int SCREEN_SIZE_Height = 600;
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -61,7 +61,6 @@ public class display extends Application {
             scene = new Scene(myInitialRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_Height, BACKGROUND);
             scene.setOnMouseClicked(e->setStartingStage(stage, "splash-2"));
             stage.setScene(scene);
-
         }
         else if(type.equals("splash-2")){
             var splash = new SplashScreen(SPLASH_SCREEN2,0,0);
@@ -71,7 +70,6 @@ public class display extends Application {
             stage.setScene(scene);
         }
         stage.show();
-
     }
 
 
