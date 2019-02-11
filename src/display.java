@@ -67,7 +67,6 @@ public class display extends Application {
             scene = new Scene(myInitialRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_HEIGHT, BACKGROUND);
             scene.setOnMouseClicked(e->setStartingStage(stage, "splash-2"));
             stage.setScene(scene);
-
         }
         else if(type.equals("splash-2")){
             var splash = new SplashScreen(SPLASH_SCREEN2,0,0);
@@ -77,7 +76,6 @@ public class display extends Application {
             stage.setScene(scene);
         }
         stage.show();
-
     }
 
 
@@ -187,6 +185,8 @@ public class display extends Application {
         }
         else{
             scene = makeLevel(level);
+            switch (Rules.myLevel = level) {
+            }
             myStage.setScene(scene);
             myStage.show();
             myPaddle.updateWidth(level, myPaddle);
