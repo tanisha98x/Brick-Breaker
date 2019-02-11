@@ -40,21 +40,11 @@ public class display extends Application {
     private Timeline myAnimation;
 
 
-
-
-
-
-
-    /**
-     * Initialize what will be displayed and how it will be updated.
-     */
     @Override
-
     public void start (Stage stage) {
         myStage = stage;
         setStartingStage(myStage, "splash-1");
         myAnimation= new Timeline();
-
     }
 
 
@@ -199,10 +189,10 @@ public class display extends Application {
             myBouncer.looseALife();
             Status.displayBar();
             // update attributes
-            if (myBouncer.myState == 1) {
+            if (myBouncer.getState() == 1) {
                 myBouncer.getView().setX(myPaddle.getView().getX() + (myPaddle.getView().getFitWidth())/ 2-6);
                 myBouncer.getView().setY(myPaddle.getView().getY() - 25);
-            } else if (myBouncer.myState == 2) {
+            } else if (myBouncer.getState() == 2) {
                 myBouncer.move(elapsedTime);
             }
             if (myRules.checkForWin()) {
@@ -260,7 +250,7 @@ public class display extends Application {
             Rules.myScore+=50;
         }
         if(code == KeyCode.SPACE) {
-           if(myBouncer.myState == 1){
+           if(myBouncer.getState() == 1){
                myBouncer.myState = 2;
            }
         }
