@@ -1,8 +1,8 @@
 //author: Tanisha Nalavadi, Melissa Leal
 public class Rules {
-    public static int myLives=3;
-    public static int myScore = 0;
-    public static int myLevel = 1;
+    private static int myLives=3;
+    private static int myScore = 0;
+    private static int myLevel = 1;
 
 
     public boolean checkForLoss(){
@@ -27,9 +27,29 @@ public class Rules {
        }
        return status;
     }
+
     public int getScore(){
         return myScore;
+    }
 
+    public void updateScore(int num){
+        myScore+=num;
+    }
+
+    public int getLives(){
+        return myLives;
+    }
+
+    public static void updateLife(int life) {
+        myLives+=life;
+    }
+
+    public int getMyLevel(){
+        return myLevel;
+    }
+
+    public static void updateLevel(int lev) {
+        myLevel+=lev;
     }
 
     public  void resetRules(){
@@ -37,4 +57,6 @@ public class Rules {
         myLives=3;
         myLevel=1;
     }
+
+
 }

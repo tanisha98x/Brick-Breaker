@@ -2,7 +2,6 @@ import javafx.scene.text.Text;
 //author: Tanisha Nalavadi, Melissa Leal
 public class StatusDisplay {
     private Rules myRules= new Rules();
-
     private Text statusBar = new Text();
 
     public Text displayBar(){

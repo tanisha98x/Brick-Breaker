@@ -10,7 +10,7 @@ public class SplashScreen {
 
     public SplashScreen(String screenFile, int width, int height) {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(screenFile));
-        myImageView =  new ImageView(image);
+        myImageView = new ImageView(image);
         myImageView.setX(width);
         myImageView.setY(height);
         myX = myImageView.getX();
@@ -18,12 +18,6 @@ public class SplashScreen {
         myImageView.setFitHeight(display.SCREEN_SIZE_HEIGHT);
         myImageView.setFitWidth(display.SCREEN_SIZE_WIDTH);
     }
-
-    public String getSplashScreen1(){
-        return SPLASH_IMAGE1;}
-
-    public String getSplashScreen12(){
-        return SPLASH_IMAGE2;}
 
     public ImageView getView(){
         return myImageView;
