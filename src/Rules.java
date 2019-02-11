@@ -1,3 +1,4 @@
+//author: Tanisha Nalavadi, Melissa Leal
 public class Rules {
     public static int myLives=3;
     public static int myScore = 0;
@@ -29,5 +30,11 @@ public class Rules {
     public int getScore(){
         return myScore;
 
+    }
+
+    public  void resetRules(){
+        myScore=0;
+        myLives=3;
+        myLevel=1;
     }
 }

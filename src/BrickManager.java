@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import javafx.scene.Group;
-
+//author: Tanisha Nalavadi, Melissa Leal
 public class BrickManager {
 
     public static int myBrickNumber;
@@ -34,6 +34,11 @@ public class BrickManager {
         if(myBrick.myInvisibility) {
             myroot.getChildren().remove(myBrick.getNode());
         }
+        return myroot;
+    }
+
+    public static Group addBrick(Brick myBrick, Group myroot){
+        myroot.getChildren().add(myBrick.getNode());
         return myroot;
     }
 
