@@ -38,13 +38,13 @@ public class TesterModes{
         ArrayList<Double> ballInfo = extractInfo(2);
         myBouncer.looseALife();
        // Status.displayBar(Rules.myScore, Rules.myLives, 1);
-        if (myBouncer.myState == 1) {
+        if (myBouncer.getState() == 1) {
             myBouncer.getView().setX(ballInfo.get(0));
             myBouncer.getView().setY(ballInfo.get(1));
-        } else if (myBouncer.myState == 2) {
+        } else if (myBouncer.getState() == 2) {
             myBouncer.move(elapsedTime);
-            myBouncer.myVelocityX = ballInfo.get(2);
-            myBouncer.myVelocityY = ballInfo.get(3);
+            //myBouncer.getXVelocity() = ballInfo.get(2);
+           // myBouncer.getYVelocity() = ballInfo.get(3);
         }
         myPaddle.paddleRules();
         myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
@@ -54,13 +54,13 @@ public class TesterModes{
         ArrayList<Double> ballInfo = extractInfo(3);
         myBouncer.looseALife();
       //  Status.displayBar(Rules.myScore, Rules.myLives, 1);
-        if (myBouncer.myState == 1) {
+        if (myBouncer.getState() == 1) {
             myBouncer.getView().setX(ballInfo.get(0));
             myBouncer.getView().setY(ballInfo.get(1));
-        } else if (myBouncer.myState == 2) {
+        } else if (myBouncer.getState() == 2) {
             myBouncer.move(elapsedTime);
-            myBouncer.myVelocityX = ballInfo.get(2);
-            myBouncer.myVelocityY = ballInfo.get(3);
+           //myBouncer.getXVelocity() = ballInfo.get(2);
+           // myBouncer.getYVelocity() = ballInfo.get(3);
         }
         myPaddle.paddleRules();
         myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
@@ -70,13 +70,13 @@ public class TesterModes{
         ArrayList<Double> ballInfo = extractInfo(4);
         myBouncer.looseALife();
        // Status.displayBar(Rules.myScore, Rules.myLives, 1);
-        if (myBouncer.myState == 1) {
+        if (myBouncer.getState() == 1) {
             myBouncer.getView().setX(ballInfo.get(0));
             myBouncer.getView().setY(ballInfo.get(1));
-        } else if (myBouncer.myState == 2) {
+        } else if (myBouncer.getState() == 2) {
             myBouncer.move(elapsedTime);
-            myBouncer.myVelocityX = ballInfo.get(2);
-            myBouncer.myVelocityY = ballInfo.get(3);
+           // myBouncer.getXVelocity() = ballInfo.get(2);
+            //myBouncer.getYVelocity() = ballInfo.get(3);
         }
         myPaddle.paddleRules();
         myBouncer.bounce(myScene.getWidth(), myPaddle, myBrickArray);
