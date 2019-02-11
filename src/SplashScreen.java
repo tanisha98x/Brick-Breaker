@@ -1,6 +1,6 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+//author: Tanisha Nalavadi, Melissa Leal
 public class SplashScreen {
     public static final String SPLASH_IMAGE1 = "splashscreen1.gif";
     public static final String SPLASH_IMAGE2= "spalshscreen2.gif";
@@ -15,7 +15,7 @@ public class SplashScreen {
         myImageView.setY(height);
         myX = myImageView.getX();
         myY = myImageView.getX();
-        myImageView.setFitHeight(display.SCREEN_SIZE_Height);
+        myImageView.setFitHeight(display.SCREEN_SIZE_HEIGHT);
         myImageView.setFitWidth(display.SCREEN_SIZE_WIDTH);
     }
 

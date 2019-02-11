@@ -3,7 +3,7 @@ import javafx.scene.Scene;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
+//author: Tanisha Nalavadi, Melissa Leal
 public class TesterModes{
     private Paddle myPaddle;
     public static final int SCREEN_SIZE_Width = 840;
@@ -37,7 +37,7 @@ public class TesterModes{
     public void stepMode2(double elapsedTime) throws Exception {
         ArrayList<Double> ballInfo = extractInfo(2);
         myBouncer.looseALife();
-        Status.displayBar(Rules.myScore, Rules.myLives, 1);
+       // Status.displayBar(Rules.myScore, Rules.myLives, 1);
         if (myBouncer.myState == 1) {
             myBouncer.getView().setX(ballInfo.get(0));
             myBouncer.getView().setY(ballInfo.get(1));
@@ -53,7 +53,7 @@ public class TesterModes{
     public void stepMode3(double elapsedTime) throws Exception {
         ArrayList<Double> ballInfo = extractInfo(3);
         myBouncer.looseALife();
-        Status.displayBar(Rules.myScore, Rules.myLives, 1);
+      //  Status.displayBar(Rules.myScore, Rules.myLives, 1);
         if (myBouncer.myState == 1) {
             myBouncer.getView().setX(ballInfo.get(0));
             myBouncer.getView().setY(ballInfo.get(1));
@@ -69,7 +69,7 @@ public class TesterModes{
     public void stepMode4(double elapsedTime) throws Exception{
         ArrayList<Double> ballInfo = extractInfo(4);
         myBouncer.looseALife();
-        Status.displayBar(Rules.myScore, Rules.myLives, 1);
+       // Status.displayBar(Rules.myScore, Rules.myLives, 1);
         if (myBouncer.myState == 1) {
             myBouncer.getView().setX(ballInfo.get(0));
             myBouncer.getView().setY(ballInfo.get(1));

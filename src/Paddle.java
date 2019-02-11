@@ -2,11 +2,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 
-
+//author: Tanisha Nalavadi, Melissa Leal
 public class Paddle {
     private ImageView myImageView;
     private int PADDLE_SPEED = 800;
     private int displaySize;
+    private double baseWidth;
     /**
      * Creates a paddle object
      */
@@ -14,11 +15,13 @@ public class Paddle {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myImageView = new ImageView(image);
         myImageView.setFitHeight(image.getHeight());
-        myImageView.setFitWidth(image.getWidth());
+        baseWidth=image.getWidth();
+        myImageView.setFitWidth(baseWidth+40);
         myImageView.setX(startXPos);
         myImageView.setY(startYPos);
         displaySize = sizeOfDisplayWidth;
     }
+
 
     public void changePaddleSpeed(int speedIncrease){
         PADDLE_SPEED  = PADDLE_SPEED + speedIncrease;
@@ -27,6 +30,23 @@ public class Paddle {
     public void changePaddleImage(String PADDLE_IMAGE){
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myImageView.setImage(image);
+    }
+
+    public void updateWidth(int level, Paddle paddle){
+        if (level==1){
+            paddle.getView().setFitWidth(baseWidth+40);
+        }
+        if (level==2){
+            paddle.getView().setFitWidth(baseWidth+25);
+
+        }
+        if (level==3){
+            paddle.getView().setFitWidth(baseWidth+10);
+
+        }
+        if (level==4){
+            paddle.getView().setFitWidth(baseWidth-5);
+        }
     }
 
 

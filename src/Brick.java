@@ -1,18 +1,30 @@
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+//author: Tanisha Nalavadi, Melissa Leal
 public class Brick {
+
+
+
+    //Brick 5= +5 bonus score
+    //6= +1 life
+//    7=
+//    8=
+//    9=
+
     private ImageView myImageView;
     public int myHitsLeft;
     public boolean myPowerUp;
     public boolean myInvisibility;
     private int myX;
     private int myY;
+    public int myBrickType;
+
 
     public Brick(int brickType, int y, int x) {
         var image =  new Image(this.getClass().getClassLoader().getResourceAsStream("brick" + brickType + ".gif"));
         myImageView = new ImageView(image);
+        myBrickType=brickType;
         myInvisibility = false;
         if(brickType <= 4){
             myPowerUp = false;
@@ -33,10 +45,13 @@ public class Brick {
     public Node getNode(){
         return myImageView;
     }
+    public ImageView getImage(){
+        return myImageView;
+    }
 
-   public Node changeBrickType(Brick myBrick, int HitsLeft){
-        myBrick = new Brick(HitsLeft, myBrick.myY, myBrick.myX );
-        return myBrick.getNode();
+   public Brick changeBrickType(Brick myBrick, int HitsLeft){
+        return new Brick(HitsLeft, myBrick.myY, myBrick.myX );
+
     }
 
 
