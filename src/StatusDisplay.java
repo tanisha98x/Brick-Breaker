@@ -3,19 +3,17 @@ import javafx.scene.text.Text;
 public class StatusDisplay {
     private Rules myRules= new Rules();
     private Text statusBar = new Text();
+    private HighScore myHighScore = new HighScore();
 
     public Text displayBar(){
-        if (HighScore.myHighScore<myRules.myScore){
-            statusBar.setText("Score: "+ (myRules.myScore)+ "  Lives: "+ (myRules.myLives)+ "  Level: "+ myRules.myLevel+ "  High Score: "+ myRules.myScore);
+        if (myHighScore.getMyHighScore()<myRules.getMyScore()){
+            statusBar.setText("Score: "+ (myRules.getMyScore())+ "  Lives: "+ (myRules.getMyLives())+ "  Level: "+ myRules.getMyLevel()+ "  High Score: "+ myRules.getMyScore());
         }
         else{
-        statusBar.setText("Score: "+ (myRules.myScore)+ "  Lives: "+ (myRules.myLives)+ "  Level: "+ myRules.myLevel+ "  High Score: "+ HighScore.myHighScore);}
+            statusBar.setText("Score: "+ (myRules.getMyScore())+ "  Lives: "+ (myRules.getMyLives())+ "  Level: "+ myRules.getMyLevel()+ "  High Score: "+ myHighScore.getMyHighScore());}
         statusBar.setX(550);
         statusBar.setY(50);
 
         return statusBar;
     }
-
-
-
 }

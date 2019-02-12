@@ -31,7 +31,7 @@ public class display extends Application {
     public static Group myGameRoot;
     private static int PADDLE_SPEED = 15;
     private HighScore myHigh= new HighScore();
-
+    private BrickManager myBrickManager = new BrickManager();
     private StatusDisplay Status = new StatusDisplay();
     //private TesterModes Modes = new TesterModes();
     private Stage myStage;
@@ -46,7 +46,6 @@ public class display extends Application {
         setStartingStage(myStage, "splash-1");
         myAnimation= new Timeline();
     }
-
 
     private void setStartingStage(Stage stage, String type) {
         myInitialRoot = new Group();
@@ -70,7 +69,7 @@ public class display extends Application {
 
 
     private void startGame(){
-        myHigh.myHighScore=myHigh.calculateHighScore(myHighScoreFile);
+        myHigh.updateHighScore(myHigh.calculateHighScore(myHighScoreFile));
         var myScene = makeLevel(1);
         myScene.fillProperty().setValue(Color.LIGHTBLUE);
         myStage.setScene(myScene);
@@ -82,7 +81,6 @@ public class display extends Application {
                 e1.printStackTrace();
             }
         });
-
         myAnimation.setCycleCount(Timeline.INDEFINITE);
         myAnimation.getKeyFrames().add(frame);
         myAnimation.play();
@@ -92,7 +90,7 @@ public class display extends Application {
         myGameRoot = addGameObjects();
         myGameRoot.getChildren().add(Status.displayBar());
         try {
-            myBrickArray = BrickManager.createBrickArray(level);
+            myBrickArray = myBrickManager.createBrickArray(level);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,7 +102,7 @@ public class display extends Application {
 
             }
         }
-        var scene = new Scene(myGameRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_HEIGHT); //figure if this is correct
+        var scene = new Scene(myGameRoot, SCREEN_SIZE_WIDTH, SCREEN_SIZE_HEIGHT);
         scene.fillProperty().setValue(Color.LIGHTBLUE);
         scene.setOnKeyPressed(e -> {
             try {
@@ -127,16 +125,16 @@ public class display extends Application {
 
 
     public void makeWinLoseScreen(boolean win) {
-        myHigh.addScore(myHighScoreFile, Rules.myScore);
-        myHigh.myHighScore=myHigh.calculateHighScore(myHighScoreFile);
+        myHigh.addScore(myHighScoreFile, myRules.getMyScore());
+        myHigh.updateHighScore(myHigh.calculateHighScore(myHighScoreFile));
         if(win){
             myGameRoot.getChildren().clear();
-            myGameRoot.getChildren().add(setUp(new Text("Congratulations, you won :') !! "+myHigh.returnHighScoreDisplay(Rules.myScore, HighScore.myHighScore))));
+            myGameRoot.getChildren().add(setUp(new Text("Congratulations, you won :') !! "+myHigh.returnHighScoreDisplay(myRules.getMyScore(), myHigh.getMyHighScore()))));
             Restart();
         }
         else{
             myGameRoot.getChildren().clear();
-            myGameRoot.getChildren().add(setUp(new Text ("So sorry you lost :'( "+ myHigh.returnHighScoreDisplay(Rules.myScore, HighScore.myHighScore))));
+            myGameRoot.getChildren().add(setUp(new Text ("So sorry you lost :'( "+ myHigh.returnHighScoreDisplay(myRules.getMyScore(), myHigh.getMyHighScore()))));
             Restart();
         }
     }
@@ -164,8 +162,6 @@ public class display extends Application {
                 startGame();
             }
         });
-
-
     }
 
     public void changeLevel(int level){
@@ -175,8 +171,7 @@ public class display extends Application {
         }
         else{
             scene = makeLevel(level);
-            switch (Rules.myLevel = level) {
-            }
+            myRules.updateLevel(level);
             myStage.setScene(scene);
             myStage.show();
             myPaddle.updateWidth(level, myPaddle);
@@ -196,8 +191,8 @@ public class display extends Application {
                 myBouncer.move(elapsedTime);
             }
             if (myRules.checkForWin()) {
-                Rules.myLevel+=1;
-                changeLevel(Rules.myLevel);
+                myRules.updateLevel(1);
+                changeLevel(myRules.getMyLevel());
             }
             if (myRules.checkForLoss()) {
                 makeWinLoseScreen(false);
@@ -243,11 +238,8 @@ public class display extends Application {
     }
 
     public void handleKeyInput (KeyCode code) throws Exception { //combine key methods
-        if (code==KeyCode.E){
-            Rules.myLives=0;
-        }
         if (code==KeyCode.X){
-            Rules.myScore+=50;
+            myRules.updateScore(50);
         }
         if(code == KeyCode.SPACE) {
            if(myBouncer.getState() == 1){
@@ -267,7 +259,7 @@ public class display extends Application {
             myBouncer.myState = 1;
         }
         if (code==KeyCode.L){
-            Rules.myLives+=1;
+            myRules.updateLife(1);
         }
         if (code==KeyCode.K){
             myPaddle.getView().setFitWidth(SCREEN_SIZE_WIDTH-100);
@@ -286,19 +278,19 @@ public class display extends Application {
             myPaddle.getView().setY(SCREEN_SIZE_HEIGHT -13);
         }
         if(code == KeyCode.DIGIT1){
-            myRules.myLevel=1;
+            myRules.setMyLevel(1);
             changeLevel(1);
         }
         if(code == KeyCode.DIGIT2){
-            myRules.myLevel=2;
+            myRules.setMyLevel(2);
             changeLevel(2);
         }
         if(code == KeyCode.DIGIT3){
-            myRules.myLevel=3;
+            myRules.setMyLevel(3);
             changeLevel(3);
         }
         if(code == KeyCode.DIGIT4){
-            myRules.myLevel=4;
+            myRules.setMyLevel(4);
             changeLevel(4);
         }
     }

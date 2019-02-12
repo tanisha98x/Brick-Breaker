@@ -1,9 +1,10 @@
-
 import java.io.*;
 //author: Tanisha Nalavadi, Melissa Leal
 public class HighScore {
 
-    public static int myHighScore;
+    private int myHighScore;
+    private Rules myRules = new Rules();
+    private BrickManager brickManager = new BrickManager();
 
 
     public int calculateHighScore(File file){
@@ -33,14 +34,15 @@ public class HighScore {
         return highScore;
     }
 
-    public static String returnHighScoreDisplay(int points, int highScore){
-        System.out.print("myscore "+Rules.myScore);
-        System.out.print("high "+myHighScore);
+    public String returnHighScoreDisplay(int points, int highScore){
+        System.out.print("myscore "+ myRules.getMyScore());
+        System.out.print("high "+ myHighScore);
+        System.out.println("bricks" + brickManager.getMyBrickNumber());
 
         if (points == highScore) {
             return ("You have a high score of "+ highScore);
         } else {
-           return ("The all time high score was " + highScore);
+            return ("The all time high score was " + highScore);
         }
     }
 
@@ -55,24 +57,11 @@ public class HighScore {
             System.out.printf("ERROR writing score to file: %s\n", ex1);
         }
     }
+
+    public int getMyHighScore(){
+        return myHighScore;
+    }
+    public void updateHighScore(int x){
+        myHighScore+=x;
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

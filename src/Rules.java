@@ -1,8 +1,9 @@
 //author: Tanisha Nalavadi, Melissa Leal
 public class Rules {
-    private static int myLives=3;
-    private static int myScore = 0;
-    private static int myLevel = 1;
+    private int myLives=3;
+    private int myScore = 0;
+    private int myLevel = 1;
+    private BrickManager myBrickManager = new BrickManager();
 
 
     public boolean checkForLoss(){
@@ -10,25 +11,25 @@ public class Rules {
         if(myLives == 0){
             status = true;
         }
-       else{
-           status = false;
+        else{
+            status = false;
         }
-       return status;
+        return status;
     }
 
     public boolean checkForWin(){
         boolean status;
-       if(BrickManager.myBrickNumber == 0){
-           status = true;
-           myLevel +=1;
-       }
-       else{
-           status = false;
-       }
-       return status;
+        if(myBrickManager.getMyBrickNumber() == 0){
+            status = true;
+            myLevel +=1;
+        }
+        else{
+            status = false;
+        }
+        return status;
     }
 
-    public int getScore(){
+    public int getMyScore(){
         return myScore;
     }
 
@@ -36,11 +37,11 @@ public class Rules {
         myScore+=num;
     }
 
-    public int getLives(){
+    public int getMyLives(){
         return myLives;
     }
 
-    public static void updateLife(int life) {
+    public void updateLife(int life) {
         myLives+=life;
     }
 
@@ -48,11 +49,14 @@ public class Rules {
         return myLevel;
     }
 
-    public static void updateLevel(int lev) {
+    public void updateLevel(int lev) {
         myLevel+=lev;
     }
+    public void setMyLevel(int level){
+        myLevel = level;
+    }
 
-    public  void resetRules(){
+    public void resetRules(){
         myScore=0;
         myLives=3;
         myLevel=1;

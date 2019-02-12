@@ -11,17 +11,18 @@ public class TesterModes{
     private Bouncer myBouncer;
     private Scene myScene;
     private Rules myRules = new Rules();
-    private static Brick[][] myBrickArray;
+    private Brick[][] myBrickArray;
+    private BrickManager brickManager = new BrickManager();
 
-    static {
+     {
         try {
-            myBrickArray = BrickManager.createBrickArray(1);
+            myBrickArray = brickManager.createBrickArray(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static Group myRoot;
+    public  Group myRoot;
     private StatusDisplay Status = new StatusDisplay();
 
     public ArrayList<Double> extractInfo(int mode) throws Exception{

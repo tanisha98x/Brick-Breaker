@@ -5,7 +5,7 @@ import javafx.scene.Group;
 //author: Tanisha Nalavadi, Melissa Leal
 public class BrickManager {
 
-    public static int myBrickNumber;
+    private static int myBrickNumber;
 
     public static Brick [][] createBrickArray(int level) throws Exception{
 
@@ -30,16 +30,26 @@ public class BrickManager {
         }
         return brickArray;
     }
-    public static Group removeBrick(Brick myBrick, Group myroot){
+    public Group removeBrick(Brick myBrick, Group myroot){
         if(myBrick.myInvisibility) {
             myroot.getChildren().remove(myBrick.getNode());
         }
         return myroot;
     }
 
-    public static Group addBrick(Brick myBrick, Group myroot){
+    public Group addBrick(Brick myBrick, Group myroot){
         myroot.getChildren().add(myBrick.getNode());
         return myroot;
     }
+    public int getMyBrickNumber(){
+        return myBrickNumber;
+    }
+    public static void updateBrickNumber(int x){
+        myBrickNumber+=x;
+    }
 
 }
+
+
+
+
