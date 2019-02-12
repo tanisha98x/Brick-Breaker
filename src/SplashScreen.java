@@ -1,6 +1,10 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 //author: Tanisha Nalavadi, Melissa Leal
+
+/**
+ * This class controls the creation of the two splashscreens that start the game
+ */
 public class SplashScreen {
     public static final String SPLASH_IMAGE1 = "splashscreen1.gif";
     public static final String SPLASH_IMAGE2= "spalshscreen2.gif";

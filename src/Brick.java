@@ -2,6 +2,10 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 //author: Tanisha Nalavadi, Melissa Leal
+
+/**
+ * This class creates a brick object and manages all its attributes, invisbility, type(varying on the image) and hitsLeft.
+ */
 public class Brick {
 
     private ImageView myImageView;

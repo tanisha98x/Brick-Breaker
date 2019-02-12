@@ -3,6 +3,10 @@ import javafx.scene.image.ImageView;
 
 //author: Tanisha Nalavadi, Melissa Leal
 
+/**
+ * This class creates the bouncer object and specifies how it bounces and what occurs when it does
+ */
+
 public class Bouncer  {
     private static final String BOUNCER_IMAGE = "ball2.png";
     private double myVelocityX = 120;

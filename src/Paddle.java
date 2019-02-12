@@ -1,8 +1,12 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
+
 
 //author: Tanisha Nalavadi, Melissa Leal
+
+/**
+ * This class creates a paddle object and defines all methods for its proper functionality.
+ */
 public class Paddle {
     private ImageView myImageView;
     private int PADDLE_SPEED = 800;

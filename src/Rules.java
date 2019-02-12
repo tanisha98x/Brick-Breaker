@@ -1,4 +1,8 @@
-//author: Tanisha Nalavadi, Melissa Leal
+//author: Tanisha Nalavadi, Melissa Leal\
+
+/**
+ * This class delimits the rules of the game and enables the game to function in order to loose and to win, loose lives and gain a score
+ */
 public class Rules {
     private static int myLives=3;
     private static int myScore = 0;
