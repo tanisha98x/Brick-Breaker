@@ -1,8 +1,13 @@
 import java.io.*;
 //author: Tanisha Nalavadi, Melissa Leal
+
+/**
+ * This class creates a HighScore text file to keep track of all the scores of all times the game has been played and maintains
+ * the highestScore
+ */
 public class HighScore {
 
-    private int myHighScore;
+    private static int myHighScore;
     private Rules myRules = new Rules();
     private BrickManager brickManager = new BrickManager();
 

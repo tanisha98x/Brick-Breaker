@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 //author: Tanisha Nalavadi, Melissa Leal
+
+/**
+ * This class manages the different tester modes, and controls extracting the data from the different textfiles.
+ */
 public class TesterModes{
     private Paddle myPaddle;
     public static final int SCREEN_SIZE_Width = 840;

@@ -1,6 +1,11 @@
 import java.util.Scanner;
 import javafx.scene.Group;
 //author: Tanisha Nalavadi, Melissa Leal
+
+/**
+ * This class manages brick array creation to make the levels, remove bricks, addbricks, and manages the number of bricks
+ * currently in the level to enable win/loose regulation
+ */
 public class BrickManager {
 
     private static int myBrickNumber;

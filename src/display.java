@@ -12,6 +12,10 @@ import javafx.util.Duration;
 import javafx.scene.text.*;
 import java.io.File;
 //author: Tanisha Nalavadi, Melissa Leal
+
+/**
+ * This is the main class of the program, it controls the display, the scene of each level and handles key input
+ */
 public class display extends Application {
     public static final String TITLE = "BRICK BREAKER !!!";
     public static final String SPLASH_SCREEN1 = "splashscreen1.gif";
