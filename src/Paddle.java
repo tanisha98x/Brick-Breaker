@@ -12,6 +12,10 @@ public class Paddle {
     /**
      * Creates a paddle object
      */
+    public Paddle (){
+        myImageView = new ImageView();
+    }
+
     public Paddle(String PADDLE_IMAGE, int startXPos, int startYPos, int sizeOfDisplayWidth) {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myImageView = new ImageView(image);

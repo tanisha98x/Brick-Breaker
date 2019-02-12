@@ -37,6 +37,7 @@ public class display extends Application {
     private Brick[][] myBrickArray;
     private File myHighScoreFile= new File("Resources/HighScoreTracker");
     private Timeline myAnimation;
+    private TestCases myTest;
 
 
     @Override
@@ -192,17 +193,7 @@ public class display extends Application {
             myPaddle.paddleRules();
             myBouncer.bounce(SCREEN_SIZE_WIDTH, myPaddle, myBrickArray);
         }
-        if(mode == 2){
-            //Modes.stepMode2(elapsedTime);
 
-        }
-        if(mode == 3){
-            //Modes.stepMode3(elapsedTime);
-
-        }
-        if(mode == 4){
-           // Modes.stepMode4(elapsedTime);
-        }
     }
     public Group getMyGameRoot(){
         return myGameRoot;
@@ -218,15 +209,21 @@ public class display extends Application {
                myBouncer.setState(2);
            }
         }
-        if(code == KeyCode.PERIOD){
-            step(2, SECOND_DELAY);
+
+
+
+        if(code == KeyCode.PERIOD ) {
+            myAnimation.stop();
+            if (myRules.getMyLevel() == 1) {
+                testPaddleLength(myPaddle);
+            }
+
+
         }
-        if(code == KeyCode.COMMA){
-            step(3, SECOND_DELAY);
-        }
-        if(code == KeyCode.BACK_SLASH){
-            step(4, SECOND_DELAY);
-        }
+
+
+
+
         if(code == KeyCode.R){
             myBouncer.setState(1);
         }
@@ -264,7 +261,29 @@ public class display extends Application {
             myRules.setMyLevel(4);
             changeLevel(4);
         }
+
+        }
+
+
+    private void testPaddleLength(Paddle paddle){
+        double width1= paddle.getView().getFitWidth();
+        paddle.updateWidth(4, paddle);
+        double width2=paddle.getView().getFitWidth();
+        paddle.updateWidth(1, paddle);
+
+        if (width1>width2){
+            System.out.print("Passes the increase paddle length test");
+        }
+        else {
+            System.out.println("Fails the increase paddle length test");
+        }
     }
+
+//    private void testScore(Paddle paddle, ){
+//
+//    }
+
+
     public static void main (String[] args) {
         launch(args);
     }

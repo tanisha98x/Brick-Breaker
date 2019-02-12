@@ -36,7 +36,7 @@ Cheat keys:
 4. K= Extends the width of the paddle
 5. 1/2/3/4= Changes the level
 
-Known Bugs: If the speed of the bouncer is increased, the bounce function malfunctions as the per pixel movement increases and the intersection is thus missed
+Known Bugs: If the speed of the bouncer is increased, the bounce function malfunctions as the per pixel movement increases and the intersection is thus missed, After running a single test no way to restart the game
 
 Extra credit: 
 1. Every time the ball hits the paddle, the speed increases.
