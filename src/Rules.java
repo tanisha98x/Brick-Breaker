@@ -1,6 +1,6 @@
 //author: Tanisha Nalavadi, Melissa Leal
 public class Rules {
-    private int myLives=3;
+    private static int myLives=3;
     private static int myScore = 0;
     private int myLevel = 1;
     private BrickManager myBrickManager = new BrickManager();
