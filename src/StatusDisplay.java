@@ -5,16 +5,15 @@ import javafx.scene.text.Text;
  * Manages the display of the status bar
  */
 public class StatusDisplay {
-    private Rules myRules= new Rules();
     private Text statusBar = new Text();
     private HighScore myHighScore = new HighScore();
 
-    public Text displayBar(){
-        if (myHighScore.getMyHighScore()<myRules.getMyScore()){
-            statusBar.setText("Score: "+ (myRules.getMyScore())+ "  Lives: "+ (myRules.getMyLives())+ "  Level: "+ myRules.getMyLevel()+ "  High Score: "+ myRules.getMyScore());
+    public Text displayBar(int score, int lives, int level){
+        if (myHighScore.getMyHighScore()<score){
+            statusBar.setText("Score: "+ (score)+ "  Lives: "+ (lives)+ "  Level: "+ level + "  High Score: "+ score);
         }
         else{
-            statusBar.setText("Score: "+ (myRules.getMyScore())+ "  Lives: "+ (myRules.getMyLives())+ "  Level: "+ myRules.getMyLevel()+ "  High Score: "+ myHighScore.getMyHighScore());}
+            statusBar.setText("Score: "+ (score)+ "  Lives: "+ (lives)+ "  Level: "+ level+ "  High Score: "+ myHighScore.getMyHighScore());}
         statusBar.setX(550);
         statusBar.setY(50);
 

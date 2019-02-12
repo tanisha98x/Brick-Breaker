@@ -74,7 +74,7 @@ public class display extends Application {
 
     private void startGame(){
         myHigh.updateHighScore(myHigh.calculateHighScore(myHighScoreFile));
-        var myScene = makeLevel(1);
+        var myScene = makeLevel(myRules.getMyLevel());
         myScene.fillProperty().setValue(Color.LIGHTBLUE);
         myStage.setScene(myScene);
 
@@ -92,7 +92,7 @@ public class display extends Application {
 
     private Scene makeLevel(int level) {
         myGameRoot = addGameObjects();
-        myGameRoot.getChildren().add(Status.displayBar());
+        myGameRoot.getChildren().add(Status.displayBar(myRules.getMyScore(), myRules.getMyLives(), myRules.getMyLevel()));
         try {
             myBrickArray = myBrickManager.createBrickArray(level);
         } catch (Exception e) {
@@ -167,7 +167,6 @@ public class display extends Application {
         }
         else{
             scene = makeLevel(level);
-            myRules.updateLevel(level);
             myStage.setScene(scene);
             myStage.show();
             myPaddle.updateWidth(level, myPaddle);
@@ -178,7 +177,7 @@ public class display extends Application {
     private void step (int mode, double elapsedTime) throws Exception {
         if(mode == 1) {
             myBouncer.looseALife();
-            Status.displayBar();
+            Status.displayBar(myRules.getMyScore(), myRules.getMyLives(), myRules.getMyLevel());
             // update attributes
             if (myBouncer.getState() == 1) {
                 myBouncer.getView().setX(myPaddle.getView().getX() + (myPaddle.getView().getFitWidth())/ 2-6);
@@ -187,7 +186,7 @@ public class display extends Application {
                 myBouncer.move(elapsedTime);
             }
             if (myRules.checkForWin()) {
-                myRules.updateLevel(1);
+                myRules.updateLevel();
                 changeLevel(myRules.getMyLevel());
             }
             if (myRules.checkForLoss()) {
@@ -258,7 +257,7 @@ public class display extends Application {
         }
         if(code == KeyCode.DIGIT2){
             myRules.setMyLevel(2);
-            changeLevel(2);
+            changeLevel(myRules.getMyLevel());
         }
         if(code == KeyCode.DIGIT3){
             myRules.setMyLevel(3);
