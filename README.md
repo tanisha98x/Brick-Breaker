@@ -43,6 +43,7 @@ Extra credit:
 2. Added an extra level
 3. Different colored bricks require a different number of hits to die, every time the bouncer hits a brick it changes color to a lower level brick until it reaches the lowest level (blue) and then disappears 
 4. Method present to change the paddle image
+5. When the paddle reaches the end of the screen and you keep moving it, it will emerge from the other side of the screen
 
 
 ### Notes
