@@ -76,7 +76,7 @@ public class Bouncer  {
                             mybrickManager.addBrick(myBrick.changeBrickType(myBrick, myBrick.getMyHitsLeft()), myDisplay.getMyGameRoot());
                             myBrickArray[i][k]=myBrick.changeBrickType(myBrick, myBrick.getMyHitsLeft());
                         }
-                        myRules.updateScore(1);
+                        //myRules.updateScore(1);
                     }
                 }
             }

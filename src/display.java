@@ -41,6 +41,7 @@ public class display extends Application {
     private Brick[][] myBrickArray;
     private File myHighScoreFile= new File("Resources/HighScoreTracker");
     private Timeline myAnimation;
+    private TestCases myTest;
 
 
     @Override
@@ -195,17 +196,7 @@ public class display extends Application {
             myPaddle.paddleRules();
             myBouncer.bounce(SCREEN_SIZE_WIDTH, myPaddle, myBrickArray);
         }
-        if(mode == 2){
-            //Modes.stepMode2(elapsedTime);
 
-        }
-        if(mode == 3){
-            //Modes.stepMode3(elapsedTime);
-
-        }
-        if(mode == 4){
-           // Modes.stepMode4(elapsedTime);
-        }
     }
     public Group getMyGameRoot(){
         return myGameRoot;
@@ -221,15 +212,39 @@ public class display extends Application {
                myBouncer.setState(2);
            }
         }
-        if(code == KeyCode.PERIOD){
-            step(2, SECOND_DELAY);
+
+
+
+        if(code == KeyCode.PERIOD ) {
+            myAnimation.stop();
+            if (myRules.getMyLevel() == 1) {
+                testPaddleLength(myPaddle);
+            }
+
+
         }
-        if(code == KeyCode.COMMA){
-            step(3, SECOND_DELAY);
+
+        if(code == KeyCode.COMMA ) {
+            myAnimation.stop();
+            if (myRules.getMyLevel() == 1) {
+                testUpdateLevel(myRules);
+            }
+
+
         }
-        if(code == KeyCode.BACK_SLASH){
-            step(4, SECOND_DELAY);
+
+        if(code == KeyCode.BACK_SLASH ) {
+            myAnimation.stop();
+            if (myRules.getMyLevel() == 1) {
+                testUpdateScore(myRules);
+            }
+
+
         }
+
+
+
+
         if(code == KeyCode.R){
             myBouncer.setState(1);
         }
@@ -267,7 +282,49 @@ public class display extends Application {
             myRules.setMyLevel(4);
             changeLevel(4);
         }
+
+        }
+
+
+    private void testPaddleLength(Paddle paddle){
+        double testWidth1= paddle.getView().getFitWidth();
+        paddle.updateWidth(4, paddle);
+        double testWidth2=paddle.getView().getFitWidth();
+        paddle.updateWidth(1, paddle);
+
+        if (testWidth1>testWidth2){
+            System.out.print("Passes the decrease paddle length as level up test");
+        }
+        else {
+            System.out.println("Fails the decrease paddle length as level up test");
+        }
     }
+
+    private void testUpdateScore(Rules rule){
+        double testScore1= rule.getMyScore();
+        rule.updateScore(1);
+        double testScore2=rule.getMyScore();
+        if (testScore1<testScore2){
+            System.out.print("Passes the update score test");
+        }
+        else {
+            System.out.println("Fails the update score test");
+        }
+    }
+
+    private void testUpdateLevel(Rules rule){
+        double testLevel1= rule.getMyLevel();
+        rule.updateLevel(1);
+        double testLevel2=rule.getMyScore();
+        if (testLevel1<testLevel2){
+            System.out.print("Passes the update level test");
+        }
+        else {
+            System.out.println("Fails the update level test");
+        }
+    }
+
+
     public static void main (String[] args) {
         launch(args);
     }
