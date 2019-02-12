@@ -6,7 +6,7 @@ public class SplashScreen {
     public static final String SPLASH_IMAGE2= "spalshscreen2.gif";
     private ImageView myImageView;
     private double myX;
-    private double myY;
+   private double myY;
 
     public SplashScreen(String screenFile, int width, int height) {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(screenFile));

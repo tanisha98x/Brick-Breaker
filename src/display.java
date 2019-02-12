@@ -1,4 +1,3 @@
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -25,11 +24,11 @@ public class display extends Application {
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.LIGHTBLUE;
     private static final int PADDLE_SPEED = 15;
+    private static Group myGameRoot;
     private Paddle myPaddle;
     private Bouncer myBouncer;
     private Rules myRules = new Rules();
     private Group myInitialRoot;
-    private static Group myGameRoot;
     private HighScore myHigh= new HighScore();
     private BrickManager myBrickManager = new BrickManager();
     private StatusDisplay Status = new StatusDisplay();
@@ -43,6 +42,7 @@ public class display extends Application {
     @Override
     public void start (Stage stage) {
         myStage = stage;
+        stage.setTitle(TITLE);
         setStartingStage(myStage, "splash-1");
         myAnimation= new Timeline();
     }
@@ -123,26 +123,23 @@ public class display extends Application {
         return root;
     }
 
-
-    public void makeWinLoseScreen(boolean win) {
+    private void makeWinLoseScreen(boolean win) {
         myHigh.addScore(myHighScoreFile, myRules.getMyScore());
         myHigh.updateHighScore(myHigh.calculateHighScore(myHighScoreFile));
         if(win){
             myGameRoot.getChildren().clear();
-            myGameRoot.getChildren().add(setUp(new Text("Congratulations, you won :') !! "+myHigh.returnHighScoreDisplay(myRules.getMyScore(), myHigh.getMyHighScore()))));
+            myGameRoot.getChildren().add(setUp(new Text("Congratulations, you won :') !! "+myHigh.returnHighScoreDisplay(myRules.getMyScore(), myHigh.getMyHighScore())+". Click the space bar to restart the game.")));
             Restart();
         }
         else{
             myGameRoot.getChildren().clear();
-            myGameRoot.getChildren().add(setUp(new Text ("So sorry you lost :'( "+ myHigh.returnHighScoreDisplay(myRules.getMyScore(), myHigh.getMyHighScore()))));
+            myGameRoot.getChildren().add(setUp(new Text ("So sorry you lost :'( "+ myHigh.returnHighScoreDisplay(myRules.getMyScore(), myHigh.getMyHighScore())+". Click the space bar to restart the game.")));
             Restart();
         }
     }
 
-
-
     private Text setUp(Text t) {
-        t.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        t.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
         t.setY(30);
         t.setX(30);
         return t;
@@ -159,7 +156,7 @@ public class display extends Application {
         });
     }
 
-    public void changeLevel(int level){
+    private void changeLevel(int level){
         Scene scene;
         if(level > 4){
             makeWinLoseScreen(true);
@@ -207,35 +204,12 @@ public class display extends Application {
            // Modes.stepMode4(elapsedTime);
         }
     }
-
-    public static Boolean intersect(Bouncer ball, Paddle paddle){
-        if (ball.getView().intersects(paddle.getView().getBoundsInParent())){
-            return true;
-        }
-        return false;
-    }
-
-    public static void collision(Bouncer ball, Brick brick){
-        if (Math.abs(brick.getImage().getX()-ball.getView().getX())<40 ||Math.abs(brick.getImage().getX()+brick.getImage().getFitWidth()-ball.getView().getX())<40 ){
-            ball.myVelocityX*=-1;
-        }
-        if (Math.abs(brick.getImage().getY()-ball.getView().getY())<40 ||Math.abs(brick.getImage().getY()+brick.getImage().getFitHeight()-ball.getView().getY())<40 ){
-            ball.myVelocityY*=-1;
-        }
-
-    }
-
-    public static Boolean hitBrick(Bouncer ball, Brick mybrick){
-        if (ball.getView().intersects(mybrick.getNode().getBoundsInParent())){
-            return true;
-        }
-        return false;
-    }
     public Group getMyGameRoot(){
         return myGameRoot;
     }
 
     public void handleKeyInput (KeyCode code) throws Exception { //combine key methods
+
         if (code==KeyCode.X){
             myRules.updateScore(50);
         }
@@ -262,18 +236,17 @@ public class display extends Application {
         if (code==KeyCode.K){
             myPaddle.getView().setFitWidth(SCREEN_SIZE_WIDTH-100);
         }
-
         if (code == KeyCode.RIGHT) {
             myPaddle.getView().setX(myPaddle.getView().getX() + PADDLE_SPEED);
-        }
+       }
         else if (code == KeyCode.LEFT) {
-            myPaddle.getView().setX(myPaddle.getView().getX() - PADDLE_SPEED);
-        }
+           myPaddle.getView().setX(myPaddle.getView().getX() - PADDLE_SPEED);
+       }
         else if (code == KeyCode.UP) {
-            myPaddle.getView().setY(SCREEN_SIZE_HEIGHT - 13);
+           myPaddle.getView().setY(SCREEN_SIZE_HEIGHT - 13);
         }
         else if (code == KeyCode.DOWN) {
-            myPaddle.getView().setY(SCREEN_SIZE_HEIGHT -13);
+           myPaddle.getView().setY(SCREEN_SIZE_HEIGHT -13);
         }
         if(code == KeyCode.DIGIT1){
             myRules.setMyLevel(1);
