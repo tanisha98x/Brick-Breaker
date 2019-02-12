@@ -8,9 +8,10 @@ public class Bouncer  {
     public double myVelocityX = 120;
     public double myVelocityY = 120;
     private ImageView myImageView;
-    public int myState;
+    private int myState;
     private Rules myRules = new Rules();
     private BrickManager mybrickManager = new BrickManager();
+    private display myDisplay = new display();
 
     public Bouncer(double xPos, double yPos, int ballState) {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
@@ -51,7 +52,7 @@ public class Bouncer  {
 
                     if (display.hitBrick(this, myBrickArray[i][k]) && !myBrickArray[i][k].myInvisibility) {
                         display.collision(this, myBrickArray[i][k]);
-                        if (myBrickArray[i][k].myBrickType == 5) {
+                        if (myBrickArray[i][k].myBrickType == 5) { //powerUp
                             myRules.updateScore(5);
                         }
                         if (myBrickArray[i][k].myBrickType == 6) {
@@ -65,13 +66,13 @@ public class Bouncer  {
 
                         if(myBrickArray[i][k].myHitsLeft ==0) {
                             myBrickArray[i][k].myInvisibility = true;
-                            mybrickManager.removeBrick(myBrickArray[i][k], display.myGameRoot);
+                            mybrickManager.removeBrick(myBrickArray[i][k], myDisplay.getMyGameRoot());
                             mybrickManager.updateBrickNumber(-1);
                         }
                         else{
                             Brick myBrick= myBrickArray[i][k];
-                            mybrickManager.removeBrick(myBrickArray[i][k], display.myGameRoot);
-                            mybrickManager.addBrick(myBrick.changeBrickType(myBrick, myBrick.myHitsLeft), display.myGameRoot);
+                            mybrickManager.removeBrick(myBrickArray[i][k], myDisplay.getMyGameRoot());
+                            mybrickManager.addBrick(myBrick.changeBrickType(myBrick, myBrick.myHitsLeft), myDisplay.getMyGameRoot());
                             myBrickArray[i][k]=myBrick.changeBrickType(myBrick, myBrick.myHitsLeft);
                         }
                         myRules.updateScore(1);
@@ -95,13 +96,8 @@ public class Bouncer  {
     public int getState(){
         return myState;
     }
-
-    public double getXVelocity(){
-        return myVelocityX;
-    }
-
-    public double getYVelocity(){
-        return myVelocityY;
+    public void setState(int state){
+        myState = state;
     }
 }
 

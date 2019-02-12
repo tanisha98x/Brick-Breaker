@@ -37,7 +37,7 @@ public class HighScore {
     public String returnHighScoreDisplay(int points, int highScore){
         System.out.print("myscore "+ myRules.getMyScore());
         System.out.print("high "+ myHighScore);
-        System.out.println("bricks" + brickManager.getMyBrickNumber());
+        System.out.println("score" + myRules.getMyScore());
 
         if (points == highScore) {
             return ("You have a high score of "+ highScore);

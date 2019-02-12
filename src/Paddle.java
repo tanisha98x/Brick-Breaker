@@ -22,11 +22,6 @@ public class Paddle {
         displaySize = sizeOfDisplayWidth;
     }
 
-
-    public void changePaddleSpeed(int speedIncrease){
-        PADDLE_SPEED  = PADDLE_SPEED + speedIncrease;
-    }
-
     public void changePaddleImage(String PADDLE_IMAGE){
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myImageView.setImage(image);

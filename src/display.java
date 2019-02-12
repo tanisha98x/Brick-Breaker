@@ -24,12 +24,12 @@ public class display extends Application {
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.LIGHTBLUE;
+    private static final int PADDLE_SPEED = 15;
     private Paddle myPaddle;
     private Bouncer myBouncer;
     private Rules myRules = new Rules();
-    public static Group myInitialRoot;
-    public static Group myGameRoot;
-    private static int PADDLE_SPEED = 15;
+    private Group myInitialRoot;
+    private static Group myGameRoot;
     private HighScore myHigh= new HighScore();
     private BrickManager myBrickManager = new BrickManager();
     private StatusDisplay Status = new StatusDisplay();
@@ -141,11 +141,6 @@ public class display extends Application {
 
 
 
-//    private Text w = new Text("Congratulations, you won :') !! "+myHigh.returnHighScoreDisplay(Rules.myScore, HighScore.myHighScore) );
-//    private Text l = new Text("So sorry you lost :'( "+ myHigh.returnHighScoreDisplay(Rules.myScore, HighScore.myHighScore));
-//    private Text toDisplayW = setUp(w);
-//    private Text toDisplayl = setUp(l);
-//
     private Text setUp(Text t) {
         t.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         t.setY(30);
@@ -236,6 +231,9 @@ public class display extends Application {
         }
         return false;
     }
+    public Group getMyGameRoot(){
+        return myGameRoot;
+    }
 
     public void handleKeyInput (KeyCode code) throws Exception { //combine key methods
         if (code==KeyCode.X){
@@ -243,7 +241,7 @@ public class display extends Application {
         }
         if(code == KeyCode.SPACE) {
            if(myBouncer.getState() == 1){
-               myBouncer.myState = 2;
+               myBouncer.setState(2);
            }
         }
         if(code == KeyCode.PERIOD){
@@ -256,7 +254,7 @@ public class display extends Application {
             step(4, SECOND_DELAY);
         }
         if(code == KeyCode.R){
-            myBouncer.myState = 1;
+            myBouncer.setState(1);
         }
         if (code==KeyCode.L){
             myRules.updateLife(1);
@@ -294,7 +292,6 @@ public class display extends Application {
             changeLevel(4);
         }
     }
-
     public static void main (String[] args) {
         launch(args);
     }
