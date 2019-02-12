@@ -225,6 +225,24 @@ public class display extends Application {
 
         }
 
+        if(code == KeyCode.COMMA ) {
+            myAnimation.stop();
+            if (myRules.getMyLevel() == 1) {
+                testUpdateLevel(myRules);
+            }
+
+
+        }
+
+        if(code == KeyCode.BACK_SLASH ) {
+            myAnimation.stop();
+            if (myRules.getMyLevel() == 1) {
+                testUpdateScore(myRules);
+            }
+
+
+        }
+
 
 
 
@@ -270,22 +288,42 @@ public class display extends Application {
 
 
     private void testPaddleLength(Paddle paddle){
-        double width1= paddle.getView().getFitWidth();
+        double testWidth1= paddle.getView().getFitWidth();
         paddle.updateWidth(4, paddle);
-        double width2=paddle.getView().getFitWidth();
+        double testWidth2=paddle.getView().getFitWidth();
         paddle.updateWidth(1, paddle);
 
-        if (width1>width2){
-            System.out.print("Passes the increase paddle length test");
+        if (testWidth1>testWidth2){
+            System.out.print("Passes the decrease paddle length as level up test");
         }
         else {
-            System.out.println("Fails the increase paddle length test");
+            System.out.println("Fails the decrease paddle length as level up test");
         }
     }
 
-//    private void testScore(Paddle paddle, ){
-//
-//    }
+    private void testUpdateScore(Rules rule){
+        double testScore1= rule.getMyScore();
+        rule.updateScore(1);
+        double testScore2=rule.getMyScore();
+        if (testScore1<testScore2){
+            System.out.print("Passes the update score test");
+        }
+        else {
+            System.out.println("Fails the update score test");
+        }
+    }
+
+    private void testUpdateLevel(Rules rule){
+        double testLevel1= rule.getMyLevel();
+        rule.updateLevel(1);
+        double testLevel2=rule.getMyScore();
+        if (testLevel1<testLevel2){
+            System.out.print("Passes the update level test");
+        }
+        else {
+            System.out.println("Fails the update level test");
+        }
+    }
 
 
     public static void main (String[] args) {
