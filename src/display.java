@@ -75,7 +75,7 @@ public class display extends Application {
 
     private void startGame(){
         myHigh.updateHighScore(myHigh.calculateHighScore(myHighScoreFile));
-        var myScene = makeLevel(myRules.getMyLevel());
+        var myScene = makeLevel(myRules.myLevel);
         myScene.fillProperty().setValue(Color.LIGHTBLUE);
         myStage.setScene(myScene);
 
@@ -93,7 +93,7 @@ public class display extends Application {
 
     private Scene makeLevel(int level) {
         myGameRoot = addGameObjects();
-        myGameRoot.getChildren().add(Status.displayBar(myRules.getMyScore(), myRules.getMyLives(), myRules.getMyLevel()));
+        myGameRoot.getChildren().add(Status.displayBar(myRules.myScore, myRules.myLives, myRules.myLevel));
         try {
             myBrickArray = myBrickManager.createBrickArray(level);
         } catch (Exception e) {
@@ -129,16 +129,16 @@ public class display extends Application {
     }
 
     private void makeWinLoseScreen(boolean win) {
-        myHigh.addScore(myHighScoreFile, myRules.getMyScore());
+        myHigh.addScore(myHighScoreFile, myRules.myScore);
         myHigh.updateHighScore(myHigh.calculateHighScore(myHighScoreFile));
         if(win){
             myGameRoot.getChildren().clear();
-            myGameRoot.getChildren().add(setUp(new Text("Congratulations, you won :') !! "+myHigh.returnHighScoreDisplay(myRules.getMyScore(), myHigh.getMyHighScore())+". Click the space bar to restart the game.")));
+            myGameRoot.getChildren().add(setUp(new Text("Congratulations, you won :') !! "+myHigh.returnHighScoreDisplay(myRules.myScore, myHigh.getMyHighScore())+". Click the space bar to restart the game.")));
             Restart();
         }
         else{
             myGameRoot.getChildren().clear();
-            myGameRoot.getChildren().add(setUp(new Text ("So sorry you lost :'( "+ myHigh.returnHighScoreDisplay(myRules.getMyScore(), myHigh.getMyHighScore())+". Click the space bar to restart the game.")));
+            myGameRoot.getChildren().add(setUp(new Text ("So sorry you lost :'( "+ myHigh.returnHighScoreDisplay(myRules.myScore, myHigh.getMyHighScore())+". Click the space bar to restart the game.")));
             Restart();
         }
     }
@@ -178,7 +178,7 @@ public class display extends Application {
     private void step (int mode, double elapsedTime) throws Exception {
         if(mode == 1) {
             myBouncer.looseALife();
-            Status.displayBar(myRules.getMyScore(), myRules.getMyLives(), myRules.getMyLevel());
+            Status.displayBar(myRules.myScore, myRules.myLives, myRules.myLevel);
             // update attributes
             if (myBouncer.getState() == 1) {
                 myBouncer.getView().setX(myPaddle.getView().getX() + (myPaddle.getView().getFitWidth())/ 2-6);
@@ -187,8 +187,8 @@ public class display extends Application {
                 myBouncer.move(elapsedTime);
             }
             if (myRules.checkForWin()) {
-                myRules.updateLevel();
-                changeLevel(myRules.getMyLevel());
+                myRules.myLevel+=1;
+                changeLevel(myRules.myLevel);
             }
             if (myRules.checkForLoss()) {
                 makeWinLoseScreen(false);
@@ -205,7 +205,7 @@ public class display extends Application {
     public void handleKeyInput (KeyCode code) throws Exception { //combine key methods
 
         if (code==KeyCode.X){
-            myRules.updateScore(50);
+            myRules.myScore+=50;
         }
         if(code == KeyCode.SPACE) {
            if(myBouncer.getState() == 1){
@@ -217,7 +217,7 @@ public class display extends Application {
 
         if(code == KeyCode.PERIOD ) {
             myAnimation.stop();
-            if (myRules.getMyLevel() == 1) {
+            if (myRules.myLevel == 1) {
                 testPaddleLength(myPaddle);
             }
 
@@ -226,7 +226,7 @@ public class display extends Application {
 
         if(code == KeyCode.COMMA ) {
             myAnimation.stop();
-            if (myRules.getMyLevel() == 1) {
+            if (myRules.myLevel == 1) {
                 testUpdateLevel(myRules);
             }
 
@@ -235,7 +235,7 @@ public class display extends Application {
 
         if(code == KeyCode.BACK_SLASH ) {
             myAnimation.stop();
-            if (myRules.getMyLevel() == 1) {
+            if (myRules.myLevel == 1) {
                 testUpdateScore(myRules);
             }
 
@@ -249,7 +249,7 @@ public class display extends Application {
             myBouncer.setState(1);
         }
         if (code==KeyCode.L){
-            myRules.updateLife(1);
+            myRules.myLives+=1;
         }
         if (code==KeyCode.K){
             myPaddle.getView().setFitWidth(SCREEN_SIZE_WIDTH-100);
@@ -267,19 +267,19 @@ public class display extends Application {
            myPaddle.getView().setY(SCREEN_SIZE_HEIGHT -13);
         }
         if(code == KeyCode.DIGIT1){
-            myRules.setMyLevel(1);
+            myRules.myLevel+=1;
             changeLevel(1);
         }
         if(code == KeyCode.DIGIT2){
-            myRules.setMyLevel(2);
-            changeLevel(myRules.getMyLevel());
+            myRules.myLevel=2;
+            changeLevel(myRules.myLevel);
         }
         if(code == KeyCode.DIGIT3){
-            myRules.setMyLevel(3);
+            myRules.myLevel=3;
             changeLevel(3);
         }
         if(code == KeyCode.DIGIT4){
-            myRules.setMyLevel(4);
+            myRules.myLevel=4;
             changeLevel(4);
         }
 
@@ -301,9 +301,9 @@ public class display extends Application {
     }
 
     private void testUpdateScore(Rules rule){
-        double testScore1= rule.getMyScore();
-        rule.updateScore(1);
-        double testScore2=rule.getMyScore();
+        double testScore1= rule.myScore;
+        rule.myScore+=1;
+        double testScore2=rule.myScore;
         if (testScore1<testScore2){
             System.out.print("Passes the update score test");
         }
@@ -313,9 +313,9 @@ public class display extends Application {
     }
 
     private void testUpdateLevel(Rules rule){
-        double testLevel1= rule.getMyLevel();
-        rule.updateLevel(1);
-        double testLevel2=rule.getMyScore();
+        double testLevel1= rule.myLevel;
+        rule.myLevel+=1;
+        double testLevel2=rule.myScore;
         if (testLevel1<testLevel2){
             System.out.print("Passes the update level test");
         }

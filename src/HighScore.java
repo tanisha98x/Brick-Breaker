@@ -40,9 +40,9 @@ public class HighScore {
     }
 
     public String returnHighScoreDisplay(int points, int highScore){
-        System.out.print("myscore "+ myRules.getMyScore());
+        System.out.print("myscore "+ myRules.myScore);
         System.out.print("high "+ myHighScore);
-        System.out.println("score" + myRules.getMyScore());
+        System.out.println("score" + myRules.myScore);
 
         if (points == highScore) {
             return ("You have a high score of "+ highScore);
