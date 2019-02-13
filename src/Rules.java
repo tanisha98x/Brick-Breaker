@@ -7,7 +7,7 @@ public class Rules {
     private int myLives;
     private int myScore;
     private int myLevel;
-    BrickManager myBrickManager;
+    private BrickManager myBrickManager;
 
     public Rules(int lives, int score, int level, BrickManager brickManager){
          myLives =lives;
