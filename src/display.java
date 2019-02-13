@@ -31,10 +31,10 @@ public class display extends Application {
     private static Group myGameRoot;
     private Paddle myPaddle;
     private Bouncer myBouncer;
-    private Rules myRules = new Rules();
+    private BrickManager myBrickManager = new BrickManager();
+   private Rules myRules = new Rules(3, 0, 1, myBrickManager);
     private Group myInitialRoot;
     private HighScore myHigh= new HighScore();
-    private BrickManager myBrickManager = new BrickManager();
     private StatusDisplay Status = new StatusDisplay();
     //private TesterModes Modes = new TesterModes();
     private Stage myStage;
@@ -93,7 +93,7 @@ public class display extends Application {
 
     private Scene makeLevel(int level) {
         myGameRoot = addGameObjects();
-        myGameRoot.getChildren().add(Status.displayBar(myRules.getMyScore(), myRules.getMyLives(), myRules.getMyLevel()));
+        myGameRoot.getChildren().add(Status.displayBar(myBouncer.getMyScore(), myBouncer.getMyLives(), myRules.getMyLevel(), myHigh.getMyHighScore()));
         try {
             myBrickArray = myBrickManager.createBrickArray(level);
         } catch (Exception e) {
@@ -129,16 +129,16 @@ public class display extends Application {
     }
 
     private void makeWinLoseScreen(boolean win) {
-        myHigh.addScore(myHighScoreFile, myRules.getMyScore());
+        myHigh.addScore(myHighScoreFile, myBouncer.getMyScore());
         myHigh.updateHighScore(myHigh.calculateHighScore(myHighScoreFile));
         if(win){
             myGameRoot.getChildren().clear();
-            myGameRoot.getChildren().add(setUp(new Text("Congratulations, you won :') !! "+myHigh.returnHighScoreDisplay(myRules.getMyScore(), myHigh.getMyHighScore())+". Click the space bar to restart the game.")));
+            myGameRoot.getChildren().add(setUp(new Text("Congratulations, you won :') !! "+myHigh.returnHighScoreDisplay(myBouncer.getMyScore(), myHigh.getMyHighScore())+". Click the space bar to restart the game.")));
             Restart();
         }
         else{
             myGameRoot.getChildren().clear();
-            myGameRoot.getChildren().add(setUp(new Text ("So sorry you lost :'( "+ myHigh.returnHighScoreDisplay(myRules.getMyScore(), myHigh.getMyHighScore())+". Click the space bar to restart the game.")));
+            myGameRoot.getChildren().add(setUp(new Text ("So sorry you lost :'( "+ myHigh.returnHighScoreDisplay(myBouncer.getMyScore(), myHigh.getMyHighScore())+". Click the space bar to restart the game.")));
             Restart();
         }
     }
@@ -178,7 +178,7 @@ public class display extends Application {
     private void step (int mode, double elapsedTime) throws Exception {
         if(mode == 1) {
             myBouncer.looseALife();
-            Status.displayBar(myRules.getMyScore(), myRules.getMyLives(), myRules.getMyLevel());
+            Status.displayBar(myBouncer.getMyScore(), myBouncer.getMyLives(), myRules.getMyLevel(), myHigh.getMyHighScore());
             // update attributes
             if (myBouncer.getState() == 1) {
                 myBouncer.getView().setX(myPaddle.getView().getX() + (myPaddle.getView().getFitWidth())/ 2-6);
@@ -190,7 +190,7 @@ public class display extends Application {
                 myRules.updateLevel();
                 changeLevel(myRules.getMyLevel());
             }
-            if (myRules.checkForLoss()) {
+            if (myRules.checkForLoss(myBouncer.getMyLives())) {
                 makeWinLoseScreen(false);
             }
             myPaddle.paddleRules();
@@ -238,12 +238,7 @@ public class display extends Application {
             if (myRules.getMyLevel() == 1) {
                 testUpdateScore(myRules);
             }
-
-
         }
-
-
-
 
         if(code == KeyCode.R){
             myBouncer.setState(1);
@@ -314,7 +309,7 @@ public class display extends Application {
 
     private void testUpdateLevel(Rules rule){
         double testLevel1= rule.getMyLevel();
-        rule.updateLevel(1);
+        rule.updateLevel();
         double testLevel2=rule.getMyScore();
         if (testLevel1<testLevel2){
             System.out.print("Passes the update level test");

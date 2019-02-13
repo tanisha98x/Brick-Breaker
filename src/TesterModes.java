@@ -14,9 +14,9 @@ public class TesterModes{
     public static final int SCREEN_SIZE_Height = 800;
     private Bouncer myBouncer;
     private Scene myScene;
-    private Rules myRules = new Rules();
-    private Brick[][] myBrickArray;
     private BrickManager brickManager = new BrickManager();
+    private Brick[][] myBrickArray;
+
 
      {
         try {

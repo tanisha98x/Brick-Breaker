@@ -4,15 +4,21 @@
  * This class delimits the rules of the game and enables the game to function in order to loose and to win, loose lives and gain a score
  */
 public class Rules {
-    private int myLives=3;
-    private int myScore = 0;
-    private int myLevel = 0;
-    private BrickManager myBrickManager = new BrickManager();
+    private int myLives;
+    private int myScore;
+    private int myLevel;
+    BrickManager myBrickManager;
 
+    public Rules(int lives, int score, int level, BrickManager brickManager){
+         myLives =lives;
+         myScore = score;
+         myLevel = level;
+         myBrickManager = brickManager;
+    }
 
-    public boolean checkForLoss(){
+    public boolean checkForLoss(int lives){
         boolean status;
-        if(myLives == 0){
+        if(lives == 0){
             status = true;
         }
         else{
@@ -36,8 +42,7 @@ public class Rules {
         return myScore;
     }
 
-    public void updateScore(int num){
-        myScore+=num;
+    public void updateScore(int num){ myScore+=num;
     }
 
     public int getMyLives(){
@@ -63,7 +68,7 @@ public class Rules {
     public void resetRules(){
         myScore=0;
         myLives=3;
-        myLevel=0;
+        myLevel=1;
     }
 
 

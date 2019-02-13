@@ -13,8 +13,8 @@ public class Bouncer  {
     private double myVelocityY = 120;
     private ImageView myImageView;
     private int myState;
-    private Rules myRules = new Rules();
     private BrickManager mybrickManager = new BrickManager();
+    private Rules myRules = new Rules(3, 0,1, mybrickManager);
     private display myDisplay = new display();
 
     public Bouncer(double xPos, double yPos, int ballState) {
@@ -76,7 +76,7 @@ public class Bouncer  {
                             mybrickManager.addBrick(myBrick.changeBrickType(myBrick, myBrick.getMyHitsLeft()), myDisplay.getMyGameRoot());
                             myBrickArray[i][k]=myBrick.changeBrickType(myBrick, myBrick.getMyHitsLeft());
                         }
-                        //myRules.updateScore(1);
+                        myRules.updateScore(1);
                     }
                 }
             }
@@ -118,7 +118,10 @@ public class Bouncer  {
     public int getState(){
         return myState;
     }
-
+    public int getMyScore(){
+        return myRules.getMyScore();
+    }
+    public int getMyLives(){ return myRules.getMyLives(); }
     public void setState(int state){
         myState = state;
     }

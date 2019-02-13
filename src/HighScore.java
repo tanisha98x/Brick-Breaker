@@ -7,9 +7,9 @@ import java.io.*;
  */
 public class HighScore {
 
-    private static int myHighScore;
-    private Rules myRules = new Rules();
+    private int myHighScore;
     private BrickManager brickManager = new BrickManager();
+    private Rules myRules = new Rules(3, 0, 1, brickManager);
 
 
     public int calculateHighScore(File file){
@@ -40,9 +40,8 @@ public class HighScore {
     }
 
     public String returnHighScoreDisplay(int points, int highScore){
-        System.out.print("myscore "+ myRules.getMyScore());
+
         System.out.print("high "+ myHighScore);
-        System.out.println("score" + myRules.getMyScore());
 
         if (points == highScore) {
             return ("You have a high score of "+ highScore);
@@ -67,6 +66,6 @@ public class HighScore {
         return myHighScore;
     }
     public void updateHighScore(int x){
-        myHighScore+=x;
+        myHighScore=x;
     }
 }
