@@ -56,13 +56,13 @@ public class Bouncer  {
                     if (hitBrick(this, myBrickArray[i][k]) && !myBrickArray[i][k].getInvisibility()) {
                         collision(this, myBrickArray[i][k]);
                         if (myBrickArray[i][k].getMyBrickType() == 5) { //powerUp
-                            myRules.updateScore(5);
+                            myRules.myScore+=1;
                         }
                         if (myBrickArray[i][k].getMyBrickType() == 6) {
-                            myRules.updateScore(1);
+                            myRules.myLevel+=1;
                         }
                         if (myBrickArray[i][k].getMyBrickType() == 7) {
-                            myRules.updateScore(1);
+                            myRules.myLives+=1;
                         }
                         myBrickArray[i][k].updateMyHits(-1);
                         if(myBrickArray[i][k].getMyHitsLeft() ==0) {
@@ -110,7 +110,7 @@ public class Bouncer  {
     }
     public void looseALife(){
         if(this.getView().getY()>= display.SCREEN_SIZE_HEIGHT){
-            myRules.updateLife(-1);
+            myRules.myLives-=1;
             this.myState = 1;
         }
     }

@@ -46,7 +46,7 @@ public class BrickManager {
         myroot.getChildren().add(myBrick.getNode());
         return myroot;
     }
-    public int getMyBrickNumber(){
+    public static int getMyBrickNumber(){
         return myBrickNumber;
     }
     public static void updateBrickNumber(int x){
