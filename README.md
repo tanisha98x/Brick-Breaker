@@ -54,8 +54,3 @@ Level Up Features:
 1. Number of bricks increase
 2. The brick types change- more bricks that require more hits to die
 3. The paddle size decreases
-
-
-### Impressions
-
-The assignment was extremely challenging but interesting. Working with a partner proved to be a challenging learning experience.
