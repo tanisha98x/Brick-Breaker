@@ -14,7 +14,9 @@ import java.io.File;
 //author: Tanisha Nalavadi, Melissa Leal
 
 /**
- * This is the main class of the program, it controls the display, the scene of each level and handles key input
+ * Purpose: This is the main class of the program that controls the display, creates the scene at every level, adds and removes
+ * objects from the the group as and when needed and handles key inputs
+ * Dependencies: This class creates instances of other classes and calls on other public methods from other classes in this package
  */
 public class display extends Application {
     public static final String TITLE = "BRICK BREAKER !!!";
@@ -32,18 +34,19 @@ public class display extends Application {
     private Paddle myPaddle;
     private Bouncer myBouncer;
     private BrickManager myBrickManager = new BrickManager();
-   private Rules myRules = new Rules(3, 0, 1, myBrickManager);
+    private Rules myRules = new Rules(3, 0, 1, myBrickManager);
     private Group myInitialRoot;
     private HighScore myHigh= new HighScore();
     private StatusDisplay Status = new StatusDisplay();
-    //private TesterModes Modes = new TesterModes();
     private Stage myStage;
     private Brick[][] myBrickArray;
     private File myHighScoreFile= new File("Resources/HighScoreTracker");
     private Timeline myAnimation;
-    private TestCases myTest;
 
-
+    /**
+     * Purpose: Starting the game by calling the stage set up methods
+     * @param stage
+     */
     @Override
     public void start (Stage stage) {
         myStage = stage;
@@ -198,11 +201,16 @@ public class display extends Application {
         }
 
     }
+
+    /**
+     *Purpose: Returns the game root group that is called on by other classes
+     * @return Group
+     */
     public Group getMyGameRoot(){
         return myGameRoot;
     }
 
-    public void handleKeyInput (KeyCode code) throws Exception { //combine key methods
+    private void handleKeyInput (KeyCode code) throws Exception { //combine key methods
 
         if (code==KeyCode.X){
             myRules.updateScore(50);
@@ -213,15 +221,11 @@ public class display extends Application {
            }
         }
 
-
-
         if(code == KeyCode.PERIOD ) {
             myAnimation.stop();
             if (myRules.getMyLevel() == 1) {
                 testPaddleLength(myPaddle);
             }
-
-
         }
 
         if(code == KeyCode.COMMA ) {
@@ -229,8 +233,6 @@ public class display extends Application {
             if (myRules.getMyLevel() == 1) {
                 testUpdateLevel(myRules);
             }
-
-
         }
 
         if(code == KeyCode.BACK_SLASH ) {
@@ -319,7 +321,10 @@ public class display extends Application {
         }
     }
 
-
+    /**
+     * Purpose: Main that runs the program
+     * @param args
+     */
     public static void main (String[] args) {
         launch(args);
     }

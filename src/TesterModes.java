@@ -6,7 +6,8 @@ import java.util.ArrayList;
 //author: Tanisha Nalavadi, Melissa Leal
 
 /**
- * This class manages the different tester modes, and controls extracting the data from the different textfiles.
+ * Purpose: This class is incomplete, but it manages the different tester modes, and controls extracting the data from
+ * the different text files
  */
 public class TesterModes{
     private Paddle myPaddle;

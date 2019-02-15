@@ -5,7 +5,8 @@ import javafx.scene.image.ImageView;
 //author: Tanisha Nalavadi, Melissa Leal
 
 /**
- * This class creates a paddle object and defines all methods for its proper functionality.
+ * Purpose: This class creates a paddle object that holds attributes such as the dimensions and contains methods
+ * specific to the working of the paddle including updating the width and paddle rules
  */
 public class Paddle {
     private ImageView myImageView;
@@ -14,12 +15,12 @@ public class Paddle {
     private double baseWidth;
 
     /**
-     * Creates a paddle object
+     * Purpose: Constructor that creates a paddle object containing attributes like display size and basewidth
+     * @param PADDLE_IMAGE
+     * @param startXPos
+     * @param startYPos
+     * @param sizeOfDisplayWidth
      */
-    public Paddle (){
-        myImageView = new ImageView();
-    }
-
     public Paddle(String PADDLE_IMAGE, int startXPos, int startYPos, int sizeOfDisplayWidth) {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myImageView = new ImageView(image);
@@ -31,11 +32,20 @@ public class Paddle {
         displaySize = sizeOfDisplayWidth;
     }
 
+    /**
+     * Purpose: To change the paddle image of the paddle, hasn't been used but can be called
+     */
     public void changePaddleImage(String PADDLE_IMAGE) {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myImageView.setImage(image);
     }
 
+
+    /**
+     * Purpose: To reduce the width of the paddle as the level increases
+     * @param level
+     * @param paddle
+     */
     public void updateWidth(int level, Paddle paddle) {
         if (level == 1) {
             paddle.getView().setFitWidth(baseWidth + 40);
@@ -53,7 +63,9 @@ public class Paddle {
         }
     }
 
-
+    /**
+     * Purpose: Ensures the paddle appears back on the screen once it's X coordinate exceeds the display width
+     */
     public void paddleRules() {
         if (myImageView.getX() >= displaySize) {
             myImageView.setX(myImageView.getFitWidth());
@@ -63,6 +75,10 @@ public class Paddle {
         }
     }
 
+    /**
+     * Purpose: Access the Image View in the paddle object
+     * @return ImageView
+     */
     public ImageView getView() {
         return myImageView;
     }

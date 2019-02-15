@@ -3,8 +3,8 @@ import javafx.scene.Group;
 //author: Tanisha Nalavadi, Melissa Leal
 
 /**
- * This class manages brick array creation to make the levels, remove bricks, addbricks, and manages the number of bricks
- * currently in the level to enable win/loose regulation
+ * Purpose: This class manages brick array creation to make the levels, remove bricks, addbricks, and manages the number of bricks
+ * currently in the level to enable win/loose regulation. It also contains methods specific to the brick array such as updating the brick number
  */
 public class BrickManager {
 
@@ -12,6 +12,12 @@ public class BrickManager {
     private static int brickNumberDown;
     private static int brickNumberAcross;
 
+    /**
+     * Purpose: Creates a brick array that stores the brick objects
+     * @param level
+     * @return
+     * @throws Exception
+     */
     public static Brick [][] createBrickArray(int level) throws Exception{
 
         //read first two ints which will instantiate brickNumberAcross, brickNumberDown
@@ -35,6 +41,13 @@ public class BrickManager {
         }
         return brickArray;
     }
+
+    /**
+     * Purpose: Removes a brick from a given group; called when the bouncer destroys the brick
+     * @param myBrick
+     * @param myroot
+     * @return an altered group
+     */
     public Group removeBrick(Brick myBrick, Group myroot){
         if(myBrick.getInvisibility()) {
             myroot.getChildren().remove(myBrick.getNode());
@@ -42,19 +55,45 @@ public class BrickManager {
         return myroot;
     }
 
+    /**
+     * Purpose: Adds a brick to a given group
+     * @param myBrick
+     * @param myroot
+     * @return an altered group
+     */
     public Group addBrick(Brick myBrick, Group myroot){
         myroot.getChildren().add(myBrick.getNode());
         return myroot;
     }
+
+    /**
+     * Purpose: Returns the brick number (ie the number of bricks left)
+     * @return int brick number
+     */
     public static int getMyBrickNumber(){
         return myBrickNumber;
     }
+
+    /**
+     * Purpose: Updates the brick number of the brick count
+     * @param x
+     */
     public static void updateBrickNumber(int x){
         myBrickNumber+=x;
     }
+
+    /**
+     * Purpose: Returns the number of bricks down, as read in the configuration file
+     * @return int
+     */
     public int getBrickNumberDown(){
         return brickNumberDown;
     }
+
+    /**
+     * Purpose: Returns the number of bricks across, as read in the configuration file
+     * @return int
+     */
     public int getBrickNumberAcross(){
         return brickNumberAcross;
     }

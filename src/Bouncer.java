@@ -1,10 +1,10 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 //author: Tanisha Nalavadi, Melissa Leal
-
 /**
- * This class creates the bouncer object and specifies how it bounces and what occurs when it does
+ * Purpose: This class creates a bouncer object that holds attributes such as the state and position,  and contains methods
+ * specific to the working of the bouncer including intersection, collision and bounce.
+ * Dependencies: This class creates instances of other classes and calls on other public methods from other classes in this package
  */
 
 public class Bouncer  {
@@ -16,6 +16,13 @@ public class Bouncer  {
     private BrickManager mybrickManager = new BrickManager();
     private Rules myRules = new Rules(3, 0,1, mybrickManager);
     private display myDisplay = new display();
+
+    /**
+     *
+     * @param xPos
+     * @param yPos
+     * @param ballState
+     */
 
     public Bouncer(double xPos, double yPos, int ballState) {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
