@@ -18,7 +18,7 @@ public class Bouncer  {
     private display myDisplay = new display();
 
     /**
-     *Purpose: Constructor for ball object that holds attributes like state
+     * Purpose: Constructor for ball object that holds attributes like state
      * @param xPos
      * @param yPos
      * @param ballState
