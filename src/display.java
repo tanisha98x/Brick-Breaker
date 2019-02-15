@@ -75,7 +75,6 @@ public class display extends Application {
         stage.show();
     }
 
-
     private void startGame(){
         myHigh.updateHighScore(myHigh.calculateHighScore(myHighScoreFile));
         var myScene = makeLevel(myRules.getMyLevel());
@@ -199,7 +198,6 @@ public class display extends Application {
             myPaddle.paddleRules();
             myBouncer.bounce(SCREEN_SIZE_WIDTH, myPaddle, myBrickArray);
         }
-
     }
 
     /**

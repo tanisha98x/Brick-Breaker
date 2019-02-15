@@ -18,7 +18,7 @@ public class Bouncer  {
     private display myDisplay = new display();
 
     /**
-     *
+     *Purpose: Constructor for ball object that holds attributes like state
      * @param xPos
      * @param yPos
      * @param ballState
@@ -32,16 +32,29 @@ public class Bouncer  {
         myState=ballState;
     }
 
+    /**
+     * Purpose: Updates the velocity of the ball, called every time it hits the paddle
+     */
     public void updateVelocity(){
         myVelocityX+=5;
         myVelocityY+=5;
     }
 
+    /**
+     * Purpose: Changes the position of the ball after the 'elapsed time' so it appears to be moving
+     * @param elapsedTime
+     */
     public void move(double elapsedTime){
         myImageView.setY(myImageView.getY() + myVelocityY * elapsedTime);
         myImageView.setX(myImageView.getX() + myVelocityX * elapsedTime);
     }
 
+    /**
+     * Purpose: Causes the ball to bounce (that is change direction) every time it hits the paddle, screen edge or brick
+     * @param screenWidth
+     * @param paddle
+     * @param myBrickArray
+     */
     public void bounce(double screenWidth, Paddle paddle, Brick [][] myBrickArray) {
         if (intersect(this, paddle)) {
             myVelocityY *= -1;
@@ -89,14 +102,26 @@ public class Bouncer  {
             }
         }
     }
-    public static Boolean intersect(Bouncer ball, Paddle paddle){
+
+    /**
+     * Purpose: Returns true if the ball intersects with the paddle
+     * @param ball
+     * @param paddle
+     * @return
+     */
+    public Boolean intersect(Bouncer ball, Paddle paddle){
         if (ball.getView().intersects(paddle.getView().getBoundsInParent())){
             return true;
         }
         return false;
     }
 
-    public static void collision(Bouncer ball, Brick brick){
+    /**
+     * Purpose: Creates a buffer around every brick and changes the X velocity if the ball hits the sides and Y velocity if the ball hits the top or the bottom of the brick
+     * @param ball
+     * @param brick
+     */
+    public void collision(Bouncer ball, Brick brick){
         if (Math.abs(brick.getImage().getX()-ball.getView().getX())<40 ||Math.abs(brick.getImage().getX()+brick.getImage().getFitWidth()-ball.getView().getX())<40 ){
             ball.updateVelocityX(-1);
         }
@@ -105,16 +130,30 @@ public class Bouncer  {
         }
     }
 
-    public static Boolean hitBrick(Bouncer ball, Brick mybrick){
+    /**
+     * Purpose: Returns true if the ball hits a brick
+     * @param ball
+     * @param mybrick
+     * @return true if the ball hits the brick
+     */
+    public Boolean hitBrick(Bouncer ball, Brick mybrick){
         if (ball.getView().intersects(mybrick.getNode().getBoundsInParent())){
             return true;
         }
         return false;
     }
 
+    /**
+     * Purpose: Returns the image view of a bouncer object
+     * @return
+     */
     public ImageView getView(){
         return myImageView;
     }
+
+    /**
+     * Purpose: Updates the lives to lose a life
+     */
     public void looseALife(){
         if(this.getView().getY()>= display.SCREEN_SIZE_HEIGHT){
             myRules.updateLife(-1);
@@ -122,19 +161,48 @@ public class Bouncer  {
         }
     }
 
+    /**
+     * Purpose: Returns the state of the ball
+     * @return int
+     */
     public int getState(){
         return myState;
     }
+
+    /**
+     * Purpose: Returns the score
+     * @return int
+     */
     public int getMyScore(){
         return myRules.getMyScore();
     }
+
+    /**
+     * Purpose: Returns the lives
+     * @return int
+     */
     public int getMyLives(){ return myRules.getMyLives(); }
+
+    /**
+     * Purpose: Changes the state of the ball
+     * @param state
+     */
     public void setState(int state){
         myState = state;
     }
+
+    /**
+     * Purpose: Updates the X velocity of the ball
+     * @param vel
+     */
     public void updateVelocityX(double vel){
         myVelocityX *= vel;
     }
+
+    /**
+     * Purpose: Updates the Y velocity of the ball
+     * @param vel
+     */
     public void updateVelocityY(double vel){
         myVelocityY *= vel;
     }
