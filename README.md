@@ -3,8 +3,6 @@ Breakout Game
 
 This project implements the game of Breakout.
 
-Name: Melissa Leal, Tanisha Nalavadi
-
 ### Timeline
 
 Start Date: 31st January
